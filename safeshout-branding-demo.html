@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShout Branding Customization</title>
+  <style>
+    :root {
+      --safeshout-purple: #3a1a78;
+      --safeshout-orange: #ff5b37;
+      --school-primary: #1a365d;
+      --school-secondary: #4299e1;
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --bg-light: #f7fafc;
+      --bg-white: #ffffff;
+      --border-color: #e2e8f0;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+    
+    .header {
+      background-color: var(--bg-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .customization-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .control-panel {
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+    }
+    
+    .preview-panel {
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+    }
+    
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--safeshout-purple);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border-color);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    
+    .color-input {
+      width: 60px;
+      height: 40px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    .preview-header {
+      background: linear-gradient(135deg, var(--school-primary), var(--school-secondary));
+      color: white;
+      padding: 1rem;
+      border-radius: 8px 8px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .preview-content {
+      padding: 1.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 0 0 8px 8px;
+    }
+    
+    .mobile-preview {
+      max-width: 300px;
+      margin: 0 auto;
+      border: 3px solid #333;
+      border-radius: 20px;
+      overflow: hidden;
+      background-color: white;
+    }
+    
+    .button {
+      background-color: var(--safeshout-purple);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-right: 0.5rem;
+    }
+    
+    .button-preview {
+      background-color: var(--school-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      margin: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .customization-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <svg width="40" height="30" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+        <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+      </svg>
+      <span style="font-weight: bold; font-size: 1.25rem; color: #3a1a78;">SafeShout</span>
+    </div>
+    <h1 style="color: var(--safeshout-purple);">School Branding Customization</h1>
+  </header>
+  
+  <div class="container">
+    <div class="customization-grid">
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <h3 class="section-title">Customization Controls</h3>
+        
+        <div class="form-group">
+          <label class="form-label">School Name</label>
+          <input type="text" class="form-input" value="Riverside Academy" onchange="updatePreview()">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Primary Color</label>
+          <input type="color" class="color-input" value="#1a365d" onchange="updateColors()">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Secondary Color</label>
+          <input type="color" class="color-input" value="#4299e1" onchange="updateColors()">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Welcome Message</label>
+          <textarea class="form-input" rows="3" onchange="updatePreview()">Report concerns safely and confidentially. Your voice matters and we're here to help.</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Support Contact</label>
+          <input type="text" class="form-input" value="safeguarding@riversideacademy.edu" onchange="updatePreview()">
+        </div>
+        
+        <div style="margin-top: 2rem;">
+          <button class="button">Save Changes</button>
+          <button class="button" style="background-color: transparent; color: var(--text-dark); border: 1px solid var(--border-color);">Preview Mobile</button>
+        </div>
+      </div>
+      
+      <!-- Preview Panel -->
+      <div class="preview-panel">
+        <h3 class="section-title">Live Preview</h3>
+        
+        <div style="border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-bottom: 2rem;">
+          <div class="preview-header">
+            <svg width="120" height="40" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="6" fill="white"/>
+              <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="#1a365d"/>
+            </svg>
+            <div>
+              <div style="font-weight: bold; font-size: 1.25rem;">Riverside Academy</div>
+              <div style="font-size: 0.875rem; opacity: 0.9;">SafeShout Integration</div>
+            </div>
+          </div>
+          
+          <div class="preview-content">
+            <h4 style="color: var(--school-primary); margin-bottom: 1rem;">Report a Concern</h4>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">Report concerns safely and confidentially. Your voice matters and we're here to help.</p>
+            
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+              <button class="button-preview">Anonymous Report</button>
+              <button class="button-preview" style="background-color: transparent; color: var(--school-primary); border: 1px solid var(--school-primary);">Named Report</button>
+            </div>
+            
+            <div style="background-color: var(--bg-light); padding: 1rem; border-radius: 6px;">
+              <div style="font-size: 0.875rem; color: var(--text-light);">Need immediate help?</div>
+              <div style="font-weight: 500; color: var(--school-primary);">safeguarding@riversideacademy.edu</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mobile-preview">
+          <div style="background: linear-gradient(135deg, #1a365d, #4299e1); color: white; padding: 1rem; text-align: center;">
+            <div style="font-weight: bold;">SafeShout</div>
+            <div style="font-size: 0.875rem; opacity: 0.9;">Riverside Academy</div>
+          </div>
+          <div style="padding: 1rem;">
+            <h5 style="color: #1a365d; margin-bottom: 0.5rem;">Quick Report</h5>
+            <p style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 1rem;">Report concerns safely</p>
+            <button style="width: 100%; background-color: #1a365d; color: white; padding: 0.75rem; border: none; border-radius: 6px;">Create Report</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Features Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+      <div style="background-color: var(--bg-white); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h4 style="color: var(--safeshout-purple); margin-bottom: 0.5rem;">Logo Integration</h4>
+        <p style="font-size: 0.875rem; color: var(--text-light);">Upload school logos and maintain brand consistency across all student-facing interfaces.</p>
+      </div>
+      
+      <div style="background-color: var(--bg-white); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h4 style="color: var(--safeshout-purple); margin-bottom: 0.5rem;">Custom Messaging</h4>
+        <p style="font-size: 0.875rem; color: var(--text-light);">Personalize welcome messages and support information to match your school's tone and policies.</p>
+      </div>
+      
+      <div style="background-color: var(--bg-white); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h4 style="color: var(--safeshout-purple); margin-bottom: 0.5rem;">Color Schemes</h4>
+        <p style="font-size: 0.875rem; color: var(--text-light);">Apply your school's colors while maintaining SafeShout's accessibility and usability standards.</p>
+      </div>
+      
+      <div style="background-color: var(--bg-white); padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h4 style="color: var(--safeshout-purple); margin-bottom: 0.5rem;">Mobile Responsive</h4>
+        <p style="font-size: 0.875rem; color: var(--text-light);">All customizations automatically adapt to mobile devices while preserving your brand identity.</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function updatePreview() {
+      // Placeholder for preview updates
+      console.log('Preview updated');
+    }
+    
+    function updateColors() {
+      // Placeholder for color updates
+      console.log('Colors updated');
+    }
+  </script>
+</body>
+</html>

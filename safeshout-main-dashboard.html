@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShout Main Dashboard</title>
+  <style>
+    :root {
+      --safeshout-purple: #3a1a78;
+      --safeshout-orange: #ff5b37;
+      --school-primary: #1a365d;
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --bg-light: #f7fafc;
+      --bg-white: #ffffff;
+      --border-color: #e2e8f0;
+      --success-green: #38a169;
+      --warning-orange: #dd6b20;
+      --error-red: #e53e3e;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+    
+    .header {
+      background-color: var(--bg-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background-color: var(--bg-white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--safeshout-purple);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      color: var(--text-light);
+      font-size: 0.875rem;
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .card {
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--safeshout-purple);
+    }
+    
+    .activity-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    
+    .activity-content {
+      flex: 1;
+    }
+    
+    .activity-title {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+    
+    .activity-meta {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    .activity-time {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    .button {
+      background-color: var(--safeshout-purple);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    
+    .button:hover {
+      opacity: 0.9;
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      color: var(--text-dark);
+      border: 1px solid var(--border-color);
+    }
+    
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .status-high {
+      background-color: #fed7d7;
+      color: var(--error-red);
+    }
+    
+    .status-medium {
+      background-color: #fed7aa;
+      color: var(--warning-orange);
+    }
+    
+    .status-low {
+      background-color: #c6f6d5;
+      color: var(--success-green);
+    }
+    
+    .status-open {
+      background-color: #fed7aa;
+      color: var(--warning-orange);
+    }
+    
+    .status-in-progress {
+      background-color: #bfdbfe;
+      color: #3182ce;
+    }
+    
+    .status-resolved {
+      background-color: #c6f6d5;
+      color: var(--success-green);
+    }
+    
+    .case-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    
+    .case-table th,
+    .case-table td {
+      text-align: left;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .case-table th {
+      background-color: var(--bg-light);
+      font-weight: 600;
+    }
+    
+    .case-table tr:hover {
+      background-color: var(--bg-light);
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo-section">
+      <svg width="40" height="30" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+        <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+      </svg>
+      <span style="font-weight: bold; font-size: 1.25rem; color: #3a1a78;">SafeShout</span>
+      <div style="width: 1px; height: 36px; background-color: var(--border-color); margin: 0 1rem;"></div>
+      <svg width="120" height="40" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="6" fill="#1a365d"/>
+        <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="white"/>
+      </svg>
+    </div>
+    <h1 style="color: var(--safeshout-purple);">Main Dashboard</h1>
+  </header>
+  
+  <div class="container">
+    <!-- Key Statistics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">47</div>
+        <div class="stat-label">Active Reports</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">23</div>
+        <div class="stat-label">Open Cases</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">156</div>
+        <div class="stat-label">Resolved Cases</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Pending Consent</div>
+      </div>
+    </div>
+    
+    <!-- Dashboard Content -->
+    <div class="dashboard-grid">
+      <!-- Recent Activity -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Recent Activity</h3>
+          <button class="button button-outline">View All</button>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-avatar" style="background-color: var(--error-red);">!</div>
+          <div class="activity-content">
+            <div class="activity-title">High-priority case escalated</div>
+            <div class="activity-meta">Case #24601 • Emily Johnson (Year 9)</div>
+          </div>
+          <div class="activity-time">5 min ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-avatar" style="background-color: var(--success-green);">✓</div>
+          <div class="activity-content">
+            <div class="activity-title">Consent form signed</div>
+            <div class="activity-meta">Case #24599 • Parent/Guardian approval</div>
+          </div>
+          <div class="activity-time">12 min ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-avatar" style="background-color: #4a90e2;">C</div>
+          <div class="activity-content">
+            <div class="activity-title">CPOMS correlation detected</div>
+            <div class="activity-meta">Report #24597 linked to existing incident</div>
+          </div>
+          <div class="activity-time">23 min ago</div>
+        </div>
+        
+        <div class="activity-item">
+          <div class="activity-avatar" style="background-color: var(--safeshout-purple);">S</div>
+          <div class="activity-content">
+            <div class="activity-title">New anonymous report</div>
+            <div class="activity-meta">Bullying concern • Year 8 student</div>
+          </div>
+          <div class="activity-time">1 hour ago</div>
+        </div>
+      </div>
+      
+      <!-- Priority Cases -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Priority Cases</h3>
+          <button class="button button-outline">Manage All</button>
+        </div>
+        
+        <table class="case-table">
+          <thead>
+            <tr>
+              <th>Case ID</th>
+              <th>Student</th>
+              <th>Priority</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#24601</td>
+              <td>Emily J.</td>
+              <td><span class="status-badge status-high">High</span></td>
+              <td><span class="status-badge status-in-progress">In Progress</span></td>
+            </tr>
+            <tr>
+              <td>#24599</td>
+              <td>Alex S.</td>
+              <td><span class="status-badge status-medium">Medium</span></td>
+              <td><span class="status-badge status-open">Open</span></td>
+            </tr>
+            <tr>
+              <td>#24597</td>
+              <td>Sarah W.</td>
+              <td><span class="status-badge status-low">Low</span></td>
+              <td><span class="status-badge status-resolved">Resolved</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Quick Actions -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Quick Actions</h3>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <button class="button">Create New Report</button>
+          <button class="button button-outline">Generate Analytics Report</button>
+          <button class="button button-outline">Export Case Data</button>
+          <button class="button button-outline">Schedule Parent Meeting</button>
+        </div>
+      </div>
+      
+      <!-- System Status -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">System Integrations</h3>
+        </div>
+        
+        <div style="space-y: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span>CPOMS Integration</span>
+            <span class="status-badge status-resolved">Connected</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span>MyConcern Platform</span>
+            <span class="status-badge status-resolved">Connected</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span>Google Classroom</span>
+            <span class="status-badge status-resolved">Connected</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Last Sync</span>
+            <span style="color: var(--text-light); font-size: 0.875rem;">2 minutes ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

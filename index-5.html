@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShout - Youth Safeguarding Platform</title>
+  <style>
+    :root {
+      --safeshout-purple: #3a1a78;
+      --safeshout-orange: #ff5b37;
+      --school-primary: #1a365d;
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --bg-light: #f7fafc;
+      --bg-white: #ffffff;
+      --border-color: #e2e8f0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(135deg, var(--bg-light) 0%, #e6fffa 100%);
+      color: var(--text-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--safeshout-purple);
+      margin-bottom: 1rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .demo-card {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+    
+    .demo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .demo-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      color: white;
+    }
+    
+    .demo-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--safeshout-purple);
+      margin-bottom: 1rem;
+    }
+    
+    .demo-description {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+    
+    .demo-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    
+    .demo-features li {
+      padding: 0.25rem 0;
+      color: var(--text-dark);
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .demo-features li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--safeshout-orange);
+      font-weight: bold;
+    }
+    
+    .demo-button {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--safeshout-purple), var(--school-primary));
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .demo-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(58, 26, 120, 0.3);
+      text-decoration: none;
+      color: white;
+    }
+    
+    .features-section {
+      background: var(--bg-white);
+      border-radius: 12px;
+      padding: 3rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .features-title {
+      text-align: center;
+      font-size: 2rem;
+      color: var(--safeshout-purple);
+      margin-bottom: 2rem;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-item {
+      text-align: center;
+      padding: 1.5rem;
+    }
+    
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--safeshout-orange), #ff7f57);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    .feature-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-dark);
+    }
+    
+    .feature-description {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-light);
+      border-top: 1px solid var(--border-color);
+    }
+    
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .container {
+        padding: 1rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-section">
+        <!-- SafeShout Logo -->
+        <svg width="60" height="45" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+          <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+        </svg>
+        <h1 class="hero-title">SafeShout</h1>
+      </div>
+      <p class="hero-subtitle">
+        Empowering young people to speak up safely while providing schools with comprehensive safeguarding tools
+      </p>
+    </header>
+    
+    <main>
+      <section class="demo-grid">
+        <div class="demo-card">
+          <div class="demo-icon" style="background: linear-gradient(135deg, #3a1a78, #4c1d95);">
+            🏠
+          </div>
+          <h2 class="demo-title">Comprehensive Dashboard</h2>
+          <p class="demo-description">
+            Complete platform overview showing case management, consent forms, hotspot mapping, and live system integrations.
+          </p>
+          <ul class="demo-features">
+            <li>Real-time case tracking and management</li>
+            <li>Interactive hotspot mapping</li>
+            <li>Digital consent form workflow</li>
+            <li>Cross-platform data correlation</li>
+            <li>Priority escalation system</li>
+          </ul>
+          <a href="safeshout-main-dashboard.html" class="demo-button">
+            Explore Full Dashboard
+          </a>
+        </div>
+        
+        <div class="demo-card">
+          <div class="demo-icon" style="background: linear-gradient(135deg, #059669, #10b981);">
+            🔗
+          </div>
+          <h2 class="demo-title">API Integrations</h2>
+          <p class="demo-description">
+            Live demonstration of SafeShout connecting with CPOMS, MyConcern, and Google Classroom for seamless data flow.
+          </p>
+          <ul class="demo-features">
+            <li>CPOMS safeguarding incident sync</li>
+            <li>MyConcern wellbeing correlation</li>
+            <li>Google Classroom attendance data</li>
+            <li>Real-time synchronization</li>
+            <li>Automated data correlation</li>
+          </ul>
+          <a href="safeshout-integrations-demo.html" class="demo-button">
+            View Integrations
+          </a>
+        </div>
+        
+        <div class="demo-card">
+          <div class="demo-icon" style="background: linear-gradient(135deg, #dc2626, #ef4444);">
+            🎨
+          </div>
+          <h2 class="demo-title">School Branding</h2>
+          <p class="demo-description">
+            Interactive customization interface showing how schools can brand SafeShout with their colors, logos, and messaging.
+          </p>
+          <ul class="demo-features">
+            <li>Custom color scheme editor</li>
+            <li>Logo integration system</li>
+            <li>Personalized messaging</li>
+            <li>Policy integration tools</li>
+            <li>Live preview updates</li>
+          </ul>
+          <a href="safeshout-branding-demo.html" class="demo-button">
+            Try Customization
+          </a>
+        </div>
+        
+        <div class="demo-card">
+          <div class="demo-icon" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+            🔄
+          </div>
+          <h2 class="demo-title">Complete User Journey</h2>
+          <p class="demo-description">
+            Interactive walkthrough showing the complete end-to-end journey from initial report submission to final resolution.
+          </p>
+          <ul class="demo-features">
+            <li>Step-by-step reporting process</li>
+            <li>Anonymous vs named pathways</li>
+            <li>School and youth worker routing</li>
+            <li>Case management workflow</li>
+            <li>Resolution and feedback cycle</li>
+          </ul>
+          <a href="safeshout-complete-journey.html" class="demo-button">
+            Follow the Journey
+          </a>
+        </div>
+        
+        <div class="demo-card">
+          <div class="demo-icon" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">
+            🔗
+          </div>
+          <h2 class="demo-title">OEM White Label Integration</h2>
+          <p class="demo-description">
+            Seamlessly embed SafeShout into existing school websites and intranet systems with flexible white-label options.
+          </p>
+          <ul class="demo-features">
+            <li>Website widget integration</li>
+            <li>Intranet portal embedding</li>
+            <li>Single sign-on support</li>
+            <li>Complete API integration</li>
+            <li>Technical implementation guide</li>
+          </ul>
+          <a href="safeshout-oem-integration.html" class="demo-button">
+            Explore Integration
+          </a>
+        </div>
+      </section>
+      
+      <section class="features-section">
+        <h2 class="features-title">Platform Capabilities</h2>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">📱</div>
+            <h3 class="feature-title">Mobile-First Reporting</h3>
+            <p class="feature-description">Anonymous and named reporting with end-to-end encryption, media upload, and real-time status tracking.</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">🛡️</div>
+            <h3 class="feature-title">Case Management</h3>
+            <p class="feature-description">Complete lifecycle tracking from initial report through resolution with automated priority escalation.</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Analytics & Insights</h3>
+            <p class="feature-description">Hotspot mapping, trend analysis, and risk assessment for proactive safeguarding intervention.</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">🔗</div>
+            <h3 class="feature-title">System Integration</h3>
+            <p class="feature-description">Seamless connection with CPOMS, MyConcern, Google Classroom, and other school management systems.</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">✍️</div>
+            <h3 class="feature-title">Digital Consent</h3>
+            <p class="feature-description">Streamlined parent/guardian approval process with digital signatures and automated workflows.</p>
+          </div>
+          
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">School Branding</h3>
+            <p class="feature-description">Complete customization with school colors, logos, messaging, and policy integration.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    
+    <footer class="footer">
+      <p>SafeShout - Youth Safeguarding Platform | Built for schools, designed for young people</p>
+    </footer>
+  </div>
+</body>
+</html>

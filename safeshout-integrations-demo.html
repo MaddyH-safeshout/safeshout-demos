@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShout Integration Dashboard</title>
+  <style>
+    :root {
+      --safeshout-purple: #3a1a78;
+      --safeshout-orange: #ff5b37;
+      --school-primary: #1a365d;
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --bg-light: #f7fafc;
+      --bg-white: #ffffff;
+      --border-color: #e2e8f0;
+      --success-green: #38a169;
+      --warning-orange: #dd6b20;
+      --error-red: #e53e3e;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+    
+    .header {
+      background-color: var(--bg-white);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background-color: var(--bg-white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--safeshout-purple);
+      margin-bottom: 0.5rem;
+    }
+    
+    .integration-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .integration-card {
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .integration-card:hover {
+      transform: translateY(-2px);
+    }
+    
+    .integration-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .integration-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .cpoms-icon { background: linear-gradient(135deg, #4a90e2, #357abd); }
+    .myconcern-icon { background: linear-gradient(135deg, #50c878, #3a9b5c); }
+    .google-icon { background: linear-gradient(135deg, #4285f4, #34a853); }
+    
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      background-color: #c6f6d5;
+      color: var(--success-green);
+    }
+    
+    .sync-section {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: var(--bg-light);
+      border-radius: 6px;
+    }
+    
+    .sync-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .sync-item:last-child { border-bottom: none; }
+    
+    .button {
+      background-color: var(--safeshout-purple);
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-right: 0.5rem;
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      color: var(--text-dark);
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <svg width="40" height="30" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+        <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+      </svg>
+      <span style="font-weight: bold; font-size: 1.25rem; color: #3a1a78;">SafeShout</span>
+    </div>
+    <h1 style="color: var(--safeshout-purple);">API Integrations Dashboard</h1>
+  </header>
+  
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div style="color: var(--text-light); font-size: 0.875rem;">Active Integrations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">847</div>
+        <div style="color: var(--text-light); font-size: 0.875rem;">Records Synced</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">99.2%</div>
+        <div style="color: var(--text-light); font-size: 0.875rem;">Data Accuracy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">2 min</div>
+        <div style="color: var(--text-light); font-size: 0.875rem;">Last Sync</div>
+      </div>
+    </div>
+    
+    <div class="integration-grid">
+      <div class="integration-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div class="integration-header">
+            <div class="integration-icon cpoms-icon">CPOMS</div>
+            <div>
+              <div style="font-weight: 600;">CPOMS</div>
+              <div style="font-size: 0.875rem; color: var(--text-light);">Child Protection Online Management</div>
+            </div>
+          </div>
+          <div class="status-badge">Connected</div>
+        </div>
+        
+        <div class="sync-section">
+          <h4 style="margin-bottom: 0.75rem;">Data Synchronization</h4>
+          <div class="sync-item">
+            <span>Student Records</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">324</span>
+          </div>
+          <div class="sync-item">
+            <span>Safeguarding Incidents</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">47</span>
+          </div>
+          <div class="sync-item">
+            <span>Child Protection Plans</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">12</span>
+          </div>
+          <div class="sync-item">
+            <span>Last Sync</span>
+            <span>3 minutes ago</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1rem;">
+          <button class="button">Sync Now</button>
+          <button class="button button-outline">Configure</button>
+        </div>
+      </div>
+      
+      <div class="integration-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div class="integration-header">
+            <div class="integration-icon myconcern-icon">MC</div>
+            <div>
+              <div style="font-weight: 600;">MyConcern</div>
+              <div style="font-size: 0.875rem; color: var(--text-light);">Safeguarding & Wellbeing Platform</div>
+            </div>
+          </div>
+          <div class="status-badge">Connected</div>
+        </div>
+        
+        <div class="sync-section">
+          <h4 style="margin-bottom: 0.75rem;">Data Synchronization</h4>
+          <div class="sync-item">
+            <span>Wellbeing Records</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">189</span>
+          </div>
+          <div class="sync-item">
+            <span>Behaviour Incidents</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">73</span>
+          </div>
+          <div class="sync-item">
+            <span>Mental Health Flags</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">34</span>
+          </div>
+          <div class="sync-item">
+            <span>Last Sync</span>
+            <span>5 minutes ago</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1rem;">
+          <button class="button">Sync Now</button>
+          <button class="button button-outline">Configure</button>
+        </div>
+      </div>
+      
+      <div class="integration-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div class="integration-header">
+            <div class="integration-icon google-icon">GC</div>
+            <div>
+              <div style="font-weight: 600;">Google Classroom</div>
+              <div style="font-size: 0.875rem; color: var(--text-light);">Educational Platform & Student Data</div>
+            </div>
+          </div>
+          <div class="status-badge">Connected</div>
+        </div>
+        
+        <div class="sync-section">
+          <h4 style="margin-bottom: 0.75rem;">Data Synchronization</h4>
+          <div class="sync-item">
+            <span>Student Enrollment</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">324</span>
+          </div>
+          <div class="sync-item">
+            <span>Class Assignments</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">28</span>
+          </div>
+          <div class="sync-item">
+            <span>Attendance Data</span>
+            <span style="font-weight: 600; color: var(--safeshout-purple);">1,247</span>
+          </div>
+          <div class="sync-item">
+            <span>Last Sync</span>
+            <span>1 minute ago</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1rem;">
+          <button class="button">Sync Now</button>
+          <button class="button button-outline">Configure</button>
+        </div>
+      </div>
+    </div>
+    
+    <div style="background-color: var(--bg-white); border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 1.5rem;">
+      <h3 style="color: var(--safeshout-purple); margin-bottom: 1rem;">Cross-Platform Report Correlation</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <div style="text-align: center;">
+          <div style="font-size: 1.5rem; font-weight: 600; color: var(--safeshout-purple);">47</div>
+          <div style="font-size: 0.875rem; color: var(--text-light);">SafeShout Reports</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 1.5rem; font-weight: 600; color: var(--safeshout-purple);">23</div>
+          <div style="font-size: 0.875rem; color: var(--text-light);">CPOMS Matches</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 1.5rem; font-weight: 600; color: var(--safeshout-purple);">31</div>
+          <div style="font-size: 0.875rem; color: var(--text-light);">MyConcern Correlations</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 1.5rem; font-weight: 600; color: var(--success-green);">19</div>
+          <div style="font-size: 0.875rem; color: var(--text-light);">Auto-Resolved</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
