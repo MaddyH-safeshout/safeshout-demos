@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShout API Integrations Dashboard</title>
+  <style>
+    /* Core Variables */
+    :root {
+      --safeshout-purple: #3a1a78;
+      --safeshout-orange: #ff5b37;
+      --school-primary: #1a365d;
+      --school-secondary: #2c5282;
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --bg-light: #f7fafc;
+      --bg-white: #ffffff;
+      --border-color: #e2e8f0;
+      --success-green: #38a169;
+      --warning-orange: #dd6b20;
+      --error-red: #e53e3e;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.5;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Header */
+    .header {
+      background-color: var(--bg-white);
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .logo-divider {
+      width: 1px;
+      height: 36px;
+      background-color: var(--border-color);
+    }
+    
+    /* Cards */
+    .card {
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    /* Status indicators */
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .status-connected {
+      background-color: #c6f6d5;
+      color: var(--success-green);
+    }
+    
+    .status-warning {
+      background-color: #fed7aa;
+      color: var(--warning-orange);
+    }
+    
+    .status-error {
+      background-color: #fed7d7;
+      color: var(--error-red);
+    }
+    
+    /* Grid layouts */
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    /* Integration cards */
+    .integration-card {
+      position: relative;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+    
+    .integration-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .integration-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .integration-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .cpoms-icon {
+      background: linear-gradient(135deg, #4a90e2, #357abd);
+    }
+    
+    .myconcern-icon {
+      background: linear-gradient(135deg, #50c878, #3a9b5c);
+    }
+    
+    .google-icon {
+      background: linear-gradient(135deg, #4285f4, #34a853);
+    }
+    
+    .integration-info {
+      flex: 1;
+    }
+    
+    .integration-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .integration-description {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    /* Data sync sections */
+    .sync-section {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: var(--bg-light);
+      border-radius: 6px;
+    }
+    
+    .sync-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .sync-item:last-child {
+      border-bottom: none;
+    }
+    
+    .sync-count {
+      font-weight: 600;
+      color: var(--safeshout-purple);
+    }
+    
+    /* Buttons */
+    .button {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .button-primary {
+      background-color: var(--safeshout-purple);
+      color: white;
+    }
+    
+    .button-primary:hover {
+      opacity: 0.9;
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-dark);
+    }
+    
+    .button-outline:hover {
+      background-color: var(--bg-light);
+    }
+    
+    .button-success {
+      background-color: var(--success-green);
+      color: white;
+    }
+    
+    /* Activity feed */
+    .activity-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .activity-content {
+      flex: 1;
+    }
+    
+    .activity-title {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+    
+    .activity-meta {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    .activity-time {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+    
+    .tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .tab.active {
+      color: var(--safeshout-purple);
+      border-bottom-color: var(--safeshout-orange);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Connection modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* Form elements */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--safeshout-purple);
+      box-shadow: 0 0 0 3px rgba(58, 26, 120, 0.1);
+    }
+    
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background-color: var(--bg-light);
+      padding: 1rem;
+      border-radius: 6px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--safeshout-purple);
+      margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    /* Loading animation */
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid var(--safeshout-purple);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem 0.5rem;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo-section">
+        <!-- SafeShout Logo -->
+        <div style="display: flex; align-items: center;">
+          <svg width="40" height="30" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+            <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+          </svg>
+          <span style="font-weight: bold; font-size: 1.25rem; margin-left: 0.5rem; color: #3a1a78;">SafeShout</span>
+        </div>
+        
+        <div class="logo-divider"></div>
+        
+        <!-- School Logo -->
+        <div>
+          <svg width="120" height="40" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="6" fill="#1a365d"/>
+            <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="white"/>
+            <path d="M50 14H55C56 14 57 14.2 57.7 14.6C58.4 15 59 15.5 59.4 16.2C59.8 16.9 60 17.7 60 18.6C60 19.5 59.8 20.3 59.4 21C59 21.7 58.4 22.2 57.7 22.6C57 23 56 23.2 55 23.2H52V28H50V14ZM55 21.5C55.6 21.5 56.2 21.4 56.6 21.1C57.1 20.8 57.5 20.5 57.7 20.1C58 19.7 58.1 19.2 58.1 18.6C58.1 18 58 17.5 57.7 17.1C57.4 16.7 57.1 16.4 56.6 16.1C56.1 15.8 55.6 15.7 55 15.7H52V21.5H55Z" fill="#1a365d"/>
+          </svg>
+        </div>
+      </div>
+      
+      <div>
+        <h1 style="margin: 0; color: var(--safeshout-purple);">API Integrations Dashboard</h1>
+      </div>
+    </div>
+  </header>
+  
+  <main class="container">
+    <!-- Overview Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="total-integrations">3</div>
+        <div class="stat-label">Active Integrations</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="synced-records">847</div>
+        <div class="stat-label">Records Synced</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="last-sync">2 min</div>
+        <div class="stat-label">Last Sync</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="data-accuracy">99.2%</div>
+        <div class="stat-label">Data Accuracy</div>
+      </div>
+    </div>
+    
+    <!-- Integration Cards -->
+    <div class="grid grid-3">
+      <!-- CPOMS Integration -->
+      <div class="card integration-card" data-integration="cpoms">
+        <div class="card-header">
+          <div class="integration-header">
+            <div class="integration-icon cpoms-icon">CPOMS</div>
+            <div class="integration-info">
+              <div class="integration-name">CPOMS</div>
+              <div class="integration-description">Child Protection Online Management System</div>
+            </div>
+          </div>
+          <div class="status-badge status-connected" id="cpoms-status">Connected</div>
+        </div>
+        
+        <div class="sync-section">
+          <h4 style="margin-bottom: 0.75rem;">Data Synchronization</h4>
+          <div class="sync-item">
+            <span>Student Records</span>
+            <span class="sync-count" id="cpoms-students">324</span>
+          </div>
+          <div class="sync-item">
+            <span>Safeguarding Incidents</span>
+            <span class="sync-count" id="cpoms-incidents">47</span>
+          </div>
+          <div class="sync-item">
+            <span>Child Protection Plans</span>
+            <span class="sync-count" id="cpoms-plans">12</span>
+          </div>
+          <div class="sync-item">
+            <span>Last Sync</span>
+            <span id="cpoms-last-sync">3 minutes ago</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+          <button class="button button-primary" onclick="syncIntegration('cpoms')">
+            <span class="sync-btn-text">Sync Now</span>
+            <span class="loading" style="display: none;"></span>
+          </button>
+          <button class="button button-outline" onclick="configureIntegration('cpoms')">Configure</button>
+        </div>
+      </div>
+      
+      <!-- MyConcern Integration -->
+      <div class="card integration-card" data-integration="myconcern">
+        <div class="card-header">
+          <div class="integration-header">
+            <div class="integration-icon myconcern-icon">MC</div>
+            <div class="integration-info">
+              <div class="integration-name">MyConcern</div>
+              <div class="integration-description">Safeguarding & Wellbeing Platform</div>
+            </div>
+          </div>
+          <div class="status-badge status-connected" id="myconcern-status">Connected</div>
+        </div>
+        
+        <div class="sync-section">
+          <h4 style="margin-bottom: 0.75rem;">Data Synchronization</h4>
+          <div class="sync-item">
+            <span>Wellbeing Records</span>
+            <span class="sync-count" id="myconcern-wellbeing">189</span>
+          </div>
+          <div class="sync-item">
+            <span>Behaviour Incidents</span>
+            <span class="sync-count" id="myconcern-behaviour">73</span>
+          </div>
+          <div class="sync-item">
+            <span>Mental Health Flags</span>
+            <span class="sync-count" id="myconcern-mental">34</span>
+          </div>
+          <div class="sync-item">
+            <span>Last Sync</span>
+            <span id="myconcern-last-sync">5 minutes ago</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+          <button class="button button-primary" onclick="syncIntegration('myconcern')">
+            <span class="sync-btn-text">Sync Now</span>
+            <span class="loading" style="display: none;"></span>
+          </button>
+          <button class="button button-outline" onclick="configureIntegration('myconcern')">Configure</button>
+        </div>
+      </div>
+      
+      <!-- Google Classroom Integration -->
+      <div class="card integration-card" data-integration="google">
+        <div class="card-header">
+          <div class="integration-header">
+            <div class="integration-icon google-icon">GC</div>
+            <div class="integration-info">
+              <div class="integration-name">Google Classroom</div>
+              <div class="integration-description">Educational Platform & Student Data</div>
+            </div>
+          </div>
+          <div class="status-badge status-connected" id="google-status">Connected</div>
+        </div>
+        
+        <div class="sync-section">
+          <h4 style="margin-bottom: 0.75rem;">Data Synchronization</h4>
+          <div class="sync-item">
+            <span>Student Enrollment</span>
+            <span class="sync-count" id="google-students">324</span>
+          </div>
+          <div class="sync-item">
+            <span>Class Assignments</span>
+            <span class="sync-count" id="google-classes">28</span>
+          </div>
+          <div class="sync-item">
+            <span>Attendance Data</span>
+            <span class="sync-count" id="google-attendance">1,247</span>
+          </div>
+          <div class="sync-item">
+            <span>Last Sync</span>
+            <span id="google-last-sync">1 minute ago</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+          <button class="button button-primary" onclick="syncIntegration('google')">
+            <span class="sync-btn-text">Sync Now</span>
+            <span class="loading" style="display: none;"></span>
+          </button>
+          <button class="button button-outline" onclick="configureIntegration('google')">Configure</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Detailed Views -->
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-tab="activity">Recent Activity</div>
+        <div class="tab" data-tab="reports">Integrated Reports</div>
+        <div class="tab" data-tab="students">Student Correlation</div>
+        <div class="tab" data-tab="settings">Integration Settings</div>
+      </div>
+      
+      <!-- Activity Tab -->
+      <div class="tab-content active" id="activity">
+        <div id="activity-feed">
+          <div class="activity-item">
+            <div class="activity-avatar cpoms-icon">C</div>
+            <div class="activity-content">
+              <div class="activity-title">CPOMS incident linked to SafeShout report #24601</div>
+              <div class="activity-meta">Student: Emily Johnson (Year 9) • Incident Type: Bullying</div>
+            </div>
+            <div class="activity-time">2 min ago</div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-avatar myconcern-icon">M</div>
+            <div class="activity-content">
+              <div class="activity-title">MyConcern wellbeing flag updated from SafeShout data</div>
+              <div class="activity-meta">Student: Alex Smith (Year 8) • Flag: Mental Health Support</div>
+            </div>
+            <div class="activity-time">7 min ago</div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-avatar google-icon">G</div>
+            <div class="activity-content">
+              <div class="activity-title">Google Classroom attendance correlation complete</div>
+              <div class="activity-meta">324 students synchronized • 12 attendance patterns identified</div>
+            </div>
+            <div class="activity-time">15 min ago</div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-avatar" style="background-color: var(--safeshout-purple);">S</div>
+            <div class="activity-content">
+              <div class="activity-title">New SafeShout report matched with existing CPOMS record</div>
+              <div class="activity-meta">Report #24599 • Automatic correlation successful</div>
+            </div>
+            <div class="activity-time">23 min ago</div>
+          </div>
+          
+          <div class="activity-item">
+            <div class="activity-avatar myconcern-icon">M</div>
+            <div class="activity-content">
+              <div class="activity-title">Bulk data sync completed from MyConcern</div>
+              <div class="activity-meta">73 behaviour incidents • 34 mental health flags imported</div>
+            </div>
+            <div class="activity-time">1 hour ago</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Reports Tab -->
+      <div class="tab-content" id="reports">
+        <div class="grid grid-2">
+          <div style="background-color: var(--bg-light); padding: 1.5rem; border-radius: 8px;">
+            <h4 style="margin-bottom: 1rem;">Cross-Platform Report Correlation</h4>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>SafeShout Reports</span>
+                <span style="font-weight: 600;">47</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>CPOMS Matches</span>
+                <span style="font-weight: 600;">23</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>MyConcern Correlations</span>
+                <span style="font-weight: 600;">31</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Auto-Resolved</span>
+                <span style="font-weight: 600; color: var(--success-green);">19</span>
+              </div>
+            </div>
+            <button class="button button-primary" style="width: 100%;">View Detailed Report</button>
+          </div>
+          
+          <div style="background-color: var(--bg-light); padding: 1.5rem; border-radius: 8px;">
+            <h4 style="margin-bottom: 1rem;">Student Risk Assessment</h4>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>High Priority Students</span>
+                <span style="font-weight: 600; color: var(--error-red);">8</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Medium Priority</span>
+                <span style="font-weight: 600; color: var(--warning-orange);">24</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Low Priority</span>
+                <span style="font-weight: 600; color: var(--success-green);">292</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Total Students</span>
+                <span style="font-weight: 600;">324</span>
+              </div>
+            </div>
+            <button class="button button-primary" style="width: 100%;">Risk Assessment Dashboard</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Students Tab -->
+      <div class="tab-content" id="students">
+        <div style="margin-bottom: 1.5rem;">
+          <h4>Student Data Correlation Matrix</h4>
+          <p style="color: var(--text-light); margin-bottom: 1rem;">View how student data is correlated across all integrated platforms</p>
+        </div>
+        
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: var(--bg-light);">
+                <th style="text-align: left; padding: 0.75rem; border: 1px solid var(--border-color);">Student</th>
+                <th style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">SafeShout Reports</th>
+                <th style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">CPOMS Records</th>
+                <th style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">MyConcern Flags</th>
+                <th style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">Attendance %</th>
+                <th style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">Risk Level</th>
+              </tr>
+            </thead>
+            <tbody id="student-correlation-table">
+              <tr>
+                <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Emily Johnson (Year 9)</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">3</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">2</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">1</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">78%</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">
+                  <span class="status-badge status-error">High</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Alex Smith (Year 8)</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">1</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">0</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">2</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">92%</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">
+                  <span class="status-badge status-warning">Medium</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Sarah Wilson (Year 10)</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">0</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">1</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">0</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">95%</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">
+                  <span class="status-badge status-connected">Low</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem; border: 1px solid var(--border-color);">James Brown (Year 7)</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">2</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">1</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">3</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">83%</td>
+                <td style="text-align: center; padding: 0.75rem; border: 1px solid var(--border-color);">
+                  <span class="status-badge status-warning">Medium</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Settings Tab -->
+      <div class="tab-content" id="settings">
+        <div class="grid grid-2">
+          <div>
+            <h4 style="margin-bottom: 1rem;">Sync Configuration</h4>
+            <div class="form-group">
+              <label class="form-label">Auto-sync Interval</label>
+              <select class="form-input">
+                <option>Every 5 minutes</option>
+                <option>Every 15 minutes</option>
+                <option>Every 30 minutes</option>
+                <option>Every hour</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Data Retention</label>
+              <select class="form-input">
+                <option>30 days</option>
+                <option>90 days</option>
+                <option>1 year</option>
+                <option>Indefinite</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Correlation Threshold</label>
+              <select class="form-input">
+                <option>High Confidence (95%)</option>
+                <option>Medium Confidence (80%)</option>
+                <option>Low Confidence (60%)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div>
+            <h4 style="margin-bottom: 1rem;">Notification Settings</h4>
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" checked>
+                <span>Notify on new correlations</span>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" checked>
+                <span>Alert on high-risk students</span>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox">
+                <span>Daily sync reports</span>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" checked>
+                <span>System health alerts</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+          <button class="button button-success">Save Configuration</button>
+          <button class="button button-outline" style="margin-left: 0.5rem;">Test All Connections</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Configuration Modal -->
+  <div class="modal" id="config-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title">Configure Integration</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      
+      <div id="modal-body">
+        <!-- Dynamic content based on integration -->
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Tab switching functionality
+    function setupTabs() {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          const tabsContainer = this.closest('.tabs');
+          const tabs = tabsContainer.querySelectorAll('.tab');
+          const targetId = this.getAttribute('data-tab');
+          
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Hide all tab contents and show target
+          const tabContents = tabsContainer.parentElement.querySelectorAll('.tab-content');
+          tabContents.forEach(content => content.classList.remove('active'));
+          document.getElementById(targetId).classList.add('active');
+        });
+      });
+    }
+    
+    // Sync integration data
+    function syncIntegration(platform) {
+      const button = document.querySelector(`[data-integration="${platform}"] .button-primary`);
+      const textSpan = button.querySelector('.sync-btn-text');
+      const loadingSpan = button.querySelector('.loading');
+      
+      // Show loading state
+      textSpan.style.display = 'none';
+      loadingSpan.style.display = 'inline-block';
+      button.disabled = true;
+      
+      // Simulate API call
+      setTimeout(() => {
+        // Update sync times and counts
+        updateSyncData(platform);
+        
+        // Restore button state
+        textSpan.style.display = 'inline';
+        loadingSpan.style.display = 'none';
+        button.disabled = false;
+        
+        // Add new activity
+        addActivity(platform);
+        
+        // Update overall stats
+        updateStats();
+      }, 2000);
+    }
+    
+    // Update sync data for a platform
+    function updateSyncData(platform) {
+      const now = new Date();
+      const timeStr = 'Just now';
+      
+      if (platform === 'cpoms') {
+        document.getElementById('cpoms-last-sync').textContent = timeStr;
+        // Simulate small data changes
+        document.getElementById('cpoms-students').textContent = '324';
+        document.getElementById('cpoms-incidents').textContent = '48';
+      } else if (platform === 'myconcern') {
+        document.getElementById('myconcern-last-sync').textContent = timeStr;
+        document.getElementById('myconcern-wellbeing').textContent = '191';
+        document.getElementById('myconcern-behaviour').textContent = '74';
+      } else if (platform === 'google') {
+        document.getElementById('google-last-sync').textContent = timeStr;
+        document.getElementById('google-attendance').textContent = '1,249';
+      }
+    }
+    
+    // Add new activity to feed
+    function addActivity(platform) {
+      const activityFeed = document.getElementById('activity-feed');
+      const activities = {
+        cpoms: {
+          icon: 'C',
+          iconClass: 'cpoms-icon',
+          title: 'CPOMS data sync completed successfully',
+          meta: '324 student records updated • 1 new incident recorded'
+        },
+        myconcern: {
+          icon: 'M',
+          iconClass: 'myconcern-icon',
+          title: 'MyConcern wellbeing data synchronized',
+          meta: '2 new behaviour incidents • 191 wellbeing records updated'
+        },
+        google: {
+          icon: 'G',
+          iconClass: 'google-icon',
+          title: 'Google Classroom attendance data imported',
+          meta: '2 new attendance records • All enrollments current'
+        }
+      };
+      
+      const activity = activities[platform];
+      const newActivity = document.createElement('div');
+      newActivity.className = 'activity-item';
+      newActivity.innerHTML = `
+        <div class="activity-avatar ${activity.iconClass}">${activity.icon}</div>
+        <div class="activity-content">
+          <div class="activity-title">${activity.title}</div>
+          <div class="activity-meta">${activity.meta}</div>
+        </div>
+        <div class="activity-time">Just now</div>
+      `;
+      
+      activityFeed.insertBefore(newActivity, activityFeed.firstChild);
+      
+      // Remove old activities if more than 10
+      const activities_list = activityFeed.children;
+      if (activities_list.length > 10) {
+        activityFeed.removeChild(activities_list[activities_list.length - 1]);
+      }
+    }
+    
+    // Update overall statistics
+    function updateStats() {
+      const syncedCount = parseInt(document.getElementById('synced-records').textContent);
+      document.getElementById('synced-records').textContent = syncedCount + Math.floor(Math.random() * 5) + 1;
+      document.getElementById('last-sync').textContent = 'Just now';
+    }
+    
+    // Configure integration
+    function configureIntegration(platform) {
+      const modal = document.getElementById('config-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalBody = document.getElementById('modal-body');
+      
+      const configs = {
+        cpoms: {
+          title: 'Configure CPOMS Integration',
+          body: `
+            <div class="form-group">
+              <label class="form-label">CPOMS Server URL</label>
+              <input type="text" class="form-input" value="https://parkview.cpoms.net" placeholder="Enter CPOMS server URL">
+            </div>
+            <div class="form-group">
+              <label class="form-label">API Key</label>
+              <input type="password" class="form-input" value="••••••••••••••••" placeholder="Enter API key">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sync Categories</label>
+              <div style="margin-top: 0.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <input type="checkbox" checked>
+                  <span>Safeguarding Incidents</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <input type="checkbox" checked>
+                  <span>Child Protection Plans</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                  <input type="checkbox">
+                  <span>Attendance Data</span>
+                </label>
+              </div>
+            </div>
+            <div style="margin-top: 1.5rem;">
+              <button class="button button-primary">Save Configuration</button>
+              <button class="button button-outline" style="margin-left: 0.5rem;" onclick="testConnection('cpoms')">Test Connection</button>
+            </div>
+          `
+        },
+        myconcern: {
+          title: 'Configure MyConcern Integration',
+          body: `
+            <div class="form-group">
+              <label class="form-label">MyConcern Instance URL</label>
+              <input type="text" class="form-input" value="https://parkview.myconcern.education" placeholder="Enter MyConcern URL">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Username</label>
+              <input type="text" class="form-input" value="safeshout_api" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-input" value="••••••••••••••••" placeholder="Enter password">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Data Types to Sync</label>
+              <div style="margin-top: 0.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <input type="checkbox" checked>
+                  <span>Wellbeing Records</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <input type="checkbox" checked>
+                  <span>Behaviour Incidents</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                  <input type="checkbox" checked>
+                  <span>Mental Health Flags</span>
+                </label>
+              </div>
+            </div>
+            <div style="margin-top: 1.5rem;">
+              <button class="button button-primary">Save Configuration</button>
+              <button class="button button-outline" style="margin-left: 0.5rem;" onclick="testConnection('myconcern')">Test Connection</button>
+            </div>
+          `
+        },
+        google: {
+          title: 'Configure Google Classroom Integration',
+          body: `
+            <div class="form-group">
+              <label class="form-label">Google Workspace Domain</label>
+              <input type="text" class="form-input" value="parkviewacademy.edu" placeholder="Enter domain">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Service Account Email</label>
+              <input type="email" class="form-input" value="safeshout@parkviewacademy.iam.gserviceaccount.com" placeholder="Enter service account">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Private Key (JSON)</label>
+              <textarea class="form-input" style="min-height: 100px;" placeholder="Paste service account JSON key">••••••••••••••••</textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Data Access Permissions</label>
+              <div style="margin-top: 0.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <input type="checkbox" checked>
+                  <span>Student Enrollment</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                  <input type="checkbox" checked>
+                  <span>Class Assignments</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                  <input type="checkbox">
+                  <span>Grade Information</span>
+                </label>
+              </div>
+            </div>
+            <div style="margin-top: 1.5rem;">
+              <button class="button button-primary">Save Configuration</button>
+              <button class="button button-outline" style="margin-left: 0.5rem;" onclick="testConnection('google')">Test Connection</button>
+            </div>
+          `
+        }
+      };
+      
+      modalTitle.textContent = configs[platform].title;
+      modalBody.innerHTML = configs[platform].body;
+      modal.classList.add('active');
+    }
+    
+    // Test connection
+    function testConnection(platform) {
+      alert(`Testing connection to ${platform.toUpperCase()}...`);
+      // In a real implementation, this would make an API call to test the connection
+    }
+    
+    // Close modal
+    function closeModal() {
+      document.getElementById('config-modal').classList.remove('active');
+    }
+    
+    // Simulate real-time updates
+    function simulateRealTimeUpdates() {
+      setInterval(() => {
+        // Update last sync times
+        const times = ['1 min ago', '2 min ago', '3 min ago', '4 min ago', '5 min ago'];
+        const randomTime = times[Math.floor(Math.random() * times.length)];
+        
+        const platforms = ['cpoms', 'myconcern', 'google'];
+        const randomPlatform = platforms[Math.floor(Math.random() * platforms.length)];
+        
+        document.getElementById(`${randomPlatform}-last-sync`).textContent = randomTime;
+        
+        // Occasionally add new activity
+        if (Math.random() < 0.3) {
+          const activityTypes = [
+            'New correlation detected',
+            'Data sync completed',
+            'Student risk level updated',
+            'Integration health check passed'
+          ];
+          
+          const randomActivity = activityTypes[Math.floor(Math.random() * activityTypes.length)];
+          // Could add to activity feed here
+        }
+      }, 30000); // Update every 30 seconds
+    }
+    
+    // Initialize the dashboard
+    function initDashboard() {
+      setupTabs();
+      simulateRealTimeUpdates();
+      
+      // Close modal when clicking outside
+      document.getElementById('config-modal').addEventListener('click', function(e) {
+        if (e.target === this) {
+          closeModal();
+        }
+      });
+    }
+    
+    // Start the dashboard when page loads
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  </script>
+</body>
+</html>

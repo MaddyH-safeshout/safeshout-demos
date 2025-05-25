@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShout OEM White Label Integration</title>
+  <style>
+    :root {
+      --safeshout-purple: #3a1a78;
+      --safeshout-orange: #ff5b37;
+      --school-primary: #1a365d;
+      --school-secondary: #2c5282;
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --bg-light: #f7fafc;
+      --bg-white: #ffffff;
+      --border-color: #e2e8f0;
+      --success-green: #38a169;
+      --info-blue: #3182ce;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    /* Header */
+    .header {
+      background-color: var(--bg-white);
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .logo-divider {
+      width: 1px;
+      height: 36px;
+      background-color: var(--border-color);
+    }
+    
+    /* Integration showcase tabs */
+    .showcase-tabs {
+      display: flex;
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      padding: 0.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .showcase-tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    
+    .showcase-tab.active {
+      background-color: var(--safeshout-purple);
+      color: white;
+    }
+    
+    .showcase-tab:hover:not(.active) {
+      background-color: var(--bg-light);
+    }
+    
+    /* Integration content */
+    .integration-content {
+      display: none;
+    }
+    
+    .integration-content.active {
+      display: block;
+    }
+    
+    /* School website mockup */
+    .website-mockup {
+      background-color: var(--bg-white);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    
+    .browser-bar {
+      background-color: #f1f5f9;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .browser-dots {
+      display: flex;
+      gap: 0.25rem;
+    }
+    
+    .browser-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    
+    .dot-red { background-color: #ef4444; }
+    .dot-yellow { background-color: #f59e0b; }
+    .dot-green { background-color: #10b981; }
+    
+    .address-bar {
+      flex: 1;
+      margin-left: 1rem;
+      padding: 0.25rem 0.75rem;
+      background-color: white;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+    
+    /* Website content areas */
+    .website-content {
+      padding: 2rem;
+    }
+    
+    .school-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--school-primary);
+    }
+    
+    .school-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .school-nav {
+      display: flex;
+      gap: 2rem;
+    }
+    
+    .school-nav a {
+      color: var(--school-primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+    
+    .school-nav a:hover,
+    .school-nav a.active {
+      border-bottom-color: var(--safeshout-orange);
+    }
+    
+    /* Integration widgets */
+    .integration-widget {
+      background-color: var(--bg-light);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    
+    .widget-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    
+    .widget-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--safeshout-purple), var(--school-primary));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .widget-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--safeshout-purple);
+    }
+    
+    .widget-description {
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+    
+    /* Embedded SafeShout components */
+    .safeshout-embed {
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border: 2px dashed var(--safeshout-purple);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .embed-placeholder {
+      background-color: var(--safeshout-purple);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    
+    .embed-code {
+      background-color: #1e293b;
+      color: #e2e8f0;
+      padding: 1rem;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+    
+    /* Intranet styles */
+    .intranet-sidebar {
+      width: 250px;
+      background-color: var(--school-primary);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 8px 0 0 8px;
+    }
+    
+    .intranet-main {
+      flex: 1;
+      padding: 1.5rem;
+      background-color: var(--bg-white);
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .intranet-layout {
+      display: flex;
+      background-color: var(--bg-white);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      min-height: 500px;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-menu a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      display: block;
+      padding: 0.5rem 0;
+      transition: color 0.2s ease;
+    }
+    
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      color: white;
+      background-color: rgba(255,255,255,0.1);
+      padding-left: 0.5rem;
+      border-radius: 4px;
+    }
+    
+    /* Integration options */
+    .integration-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    
+    .option-card {
+      background-color: var(--bg-white);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.2s ease;
+    }
+    
+    .option-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .option-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    .option-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--safeshout-purple);
+    }
+    
+    .option-description {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    
+    .option-features {
+      list-style: none;
+    }
+    
+    .option-features li {
+      padding: 0.25rem 0;
+      color: var(--text-dark);
+      position: relative;
+      padding-left: 1.25rem;
+      font-size: 0.875rem;
+    }
+    
+    .option-features li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success-green);
+      font-weight: bold;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .showcase-tabs {
+        flex-direction: column;
+      }
+      
+      .school-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      
+      .school-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .intranet-layout {
+        flex-direction: column;
+      }
+      
+      .intranet-sidebar {
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+      }
+      
+      .intranet-main {
+        border-radius: 0 0 8px 8px;
+      }
+      
+      .integration-options {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .demo-button {
+      background: linear-gradient(135deg, var(--safeshout-purple), var(--school-primary));
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .demo-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(58, 26, 120, 0.3);
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo-section">
+        <!-- SafeShout Logo -->
+        <div style="display: flex; align-items: center;">
+          <svg width="40" height="30" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+            <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+          </svg>
+          <span style="font-weight: bold; font-size: 1.25rem; margin-left: 0.5rem; color: #3a1a78;">SafeShout</span>
+        </div>
+        
+        <div class="logo-divider"></div>
+        
+        <div>
+          <h1 style="margin: 0; color: var(--safeshout-purple);">OEM White Label Integration</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <main class="container">
+    <p style="font-size: 1.125rem; margin-bottom: 2rem; text-align: center; color: var(--text-light);">
+      Seamlessly integrate SafeShout into your existing school website or intranet system with flexible white-label options
+    </p>
+    
+    <!-- Integration Showcase Tabs -->
+    <div class="showcase-tabs">
+      <div class="showcase-tab active" data-tab="website">School Website Integration</div>
+      <div class="showcase-tab" data-tab="intranet">Intranet Portal Integration</div>
+      <div class="showcase-tab" data-tab="options">Integration Options</div>
+      <div class="showcase-tab" data-tab="technical">Technical Implementation</div>
+    </div>
+    
+    <!-- School Website Integration -->
+    <div class="integration-content active" id="website">
+      <h2 style="margin-bottom: 1.5rem;">School Website Integration</h2>
+      <p style="margin-bottom: 2rem; color: var(--text-light);">
+        Embed SafeShout directly into your school's public website with seamless branding and navigation integration.
+      </p>
+      
+      <div class="website-mockup">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <div class="browser-dot dot-red"></div>
+            <div class="browser-dot dot-yellow"></div>
+            <div class="browser-dot dot-green"></div>
+          </div>
+          <div class="address-bar">https://www.parkviewacademy.edu/safeguarding</div>
+        </div>
+        
+        <div class="website-content">
+          <div class="school-header">
+            <div class="school-logo">
+              <svg width="50" height="50" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="40" height="40" rx="6" fill="#1a365d"/>
+                <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="white"/>
+              </svg>
+              <div>
+                <h2 style="color: var(--school-primary); margin: 0;">Parkview Academy</h2>
+                <p style="margin: 0; color: var(--text-light); font-size: 0.9rem;">Excellence in Education</p>
+              </div>
+            </div>
+            
+            <nav class="school-nav">
+              <a href="#">Home</a>
+              <a href="#">About</a>
+              <a href="#">Academics</a>
+              <a href="#" class="active">Safeguarding</a>
+              <a href="#">Contact</a>
+            </nav>
+          </div>
+          
+          <div class="integration-widget">
+            <div class="widget-header">
+              <div class="widget-icon">🛡️</div>
+              <div>
+                <div class="widget-title">Student Wellbeing & Safeguarding</div>
+                <div style="font-size: 0.875rem; color: var(--text-light);">Powered by SafeShout</div>
+              </div>
+            </div>
+            
+            <p class="widget-description">
+              At Parkview Academy, student safety and wellbeing is our top priority. If you have any concerns, you can report them safely and confidentially through our secure reporting system.
+            </p>
+            
+            <div class="safeshout-embed">
+              <div class="embed-placeholder">SafeShout Reporting Widget</div>
+              <p style="margin: 0; color: var(--text-light);">
+                Embedded reporting interface with school branding and single sign-on integration
+              </p>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+              <button class="demo-button" onclick="showReportingDemo()">Report a Concern</button>
+              <button class="demo-button" style="background: transparent; color: var(--school-primary); border: 1px solid var(--border-color);" onclick="showResourcesDemo()">View Resources</button>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem;">
+            <div style="background-color: var(--bg-light); padding: 1rem; border-radius: 6px;">
+              <h4 style="color: var(--school-primary); margin-bottom: 0.5rem;">Quick Access</h4>
+              <ul style="list-style: none;">
+                <li style="padding: 0.25rem 0;"><a href="#">Report Online Bullying</a></li>
+                <li style="padding: 0.25rem 0;"><a href="#">Mental Health Support</a></li>
+                <li style="padding: 0.25rem 0;"><a href="#">Emergency Contacts</a></li>
+              </ul>
+            </div>
+            
+            <div style="background-color: var(--bg-light); padding: 1rem; border-radius: 6px;">
+              <h4 style="color: var(--school-primary); margin-bottom: 0.5rem;">For Parents</h4>
+              <ul style="list-style: none;">
+                <li style="padding: 0.25rem 0;"><a href="#">Safeguarding Policies</a></li>
+                <li style="padding: 0.25rem 0;"><a href="#">How to Report Concerns</a></li>
+                <li style="padding: 0.25rem 0;"><a href="#">Support Resources</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: #f8fafc; border: 2px solid var(--safeshout-purple); border-radius: 8px; padding: 2rem; text-align: center;">
+        <div style="background-color: var(--safeshout-purple); color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;">
+          <h4 style="margin: 0; color: white;">Integration Code Generated</h4>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+          <div style="background-color: #e2e8f0; padding: 0.5rem 1rem; border-radius: 4px; font-family: monospace;">
+            &lt;script&gt; SafeShout.init() &lt;/script&gt;
+          </div>
+          <span style="color: var(--safeshout-purple);">→</span>
+          <div style="background-color: var(--success-green); color: white; padding: 0.5rem 1rem; border-radius: 4px;">
+            Widget Embedded
+          </div>
+        </div>
+        <p style="color: var(--text-light); margin: 0;">
+          Simple copy-paste integration with automatic school branding
+        </p>
+      </div>
+    </div>
+    
+    <!-- Intranet Portal Integration -->
+    <div class="integration-content" id="intranet">
+      <h2 style="margin-bottom: 1.5rem;">Staff Intranet Portal Integration</h2>
+      <p style="margin-bottom: 2rem; color: var(--text-light);">
+        Integrate SafeShout management tools directly into your school's intranet or staff portal for seamless workflow.
+      </p>
+      
+      <div class="intranet-layout">
+        <div class="intranet-sidebar">
+          <h3 style="color: white; margin-bottom: 1.5rem;">Staff Portal</h3>
+          <ul class="sidebar-menu">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">My Classes</a></li>
+            <li><a href="#">Student Records</a></li>
+            <li><a href="#" class="active">Safeguarding</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Calendar</a></li>
+            <li><a href="#">Resources</a></li>
+            <li><a href="#">Settings</a></li>
+          </ul>
+          
+          <div style="margin-top: 2rem; padding: 1rem; background-color: rgba(255,255,255,0.1); border-radius: 6px;">
+            <h4 style="color: white; margin-bottom: 0.5rem;">Quick Actions</h4>
+            <div style="font-size: 0.875rem;">
+              <p style="margin: 0.5rem 0;"><a href="#" style="color: rgba(255,255,255,0.8);">View Open Cases</a></p>
+              <p style="margin: 0.5rem 0;"><a href="#" style="color: rgba(255,255,255,0.8);">Create New Report</a></p>
+              <p style="margin: 0.5rem 0;"><a href="#" style="color: rgba(255,255,255,0.8);">Emergency Procedures</a></p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="intranet-main">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+            <h3 style="margin: 0; color: var(--school-primary);">Safeguarding Dashboard</h3>
+            <div style="display: flex; gap: 0.5rem;">
+              <span style="background-color: var(--success-green); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">3 Active Cases</span>
+              <span style="background-color: var(--info-blue); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.875rem;">1 New Report</span>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div style="background-color: var(--bg-light); padding: 1rem; border-radius: 6px; text-align: center;">
+              <div style="font-size: 1.5rem; font-weight: 600; color: var(--safeshout-purple);">12</div>
+              <div style="font-size: 0.875rem; color: var(--text-light);">Reports This Month</div>
+            </div>
+            <div style="background-color: var(--bg-light); padding: 1rem; border-radius: 6px; text-align: center;">
+              <div style="font-size: 1.5rem; font-weight: 600; color: var(--safeshout-purple);">3</div>
+              <div style="font-size: 0.875rem; color: var(--text-light);">Pending Review</div>
+            </div>
+            <div style="background-color: var(--bg-light); padding: 1rem; border-radius: 6px; text-align: center;">
+              <div style="font-size: 1.5rem; font-weight: 600; color: var(--safeshout-purple);">9</div>
+              <div style="font-size: 0.875rem; color: var(--text-light);">Resolved Cases</div>
+            </div>
+          </div>
+          
+          <div class="safeshout-embed">
+            <div class="embed-placeholder">SafeShout Management Interface</div>
+            <p style="margin: 0; color: var(--text-light);">
+              Complete case management, reporting tools, and analytics integrated into your existing portal
+            </p>
+          </div>
+          
+          <div style="margin-top: 1.5rem;">
+            <h4 style="color: var(--school-primary); margin-bottom: 1rem;">Recent Activity</h4>
+            <div style="space-y: 0.5rem;">
+              <div style="display: flex; justify-content: between; align-items: center; padding: 0.75rem; background-color: var(--bg-light); border-radius: 4px; margin-bottom: 0.5rem;">
+                <div>
+                  <strong>New Report #24601</strong>
+                  <div style="font-size: 0.875rem; color: var(--text-light);">Bullying concern - Year 9 student</div>
+                </div>
+                <div style="font-size: 0.875rem; color: var(--text-light);">2 hours ago</div>
+              </div>
+              <div style="display: flex; justify-content: between; align-items: center; padding: 0.75rem; background-color: var(--bg-light); border-radius: 4px; margin-bottom: 0.5rem;">
+                <div>
+                  <strong>Case #24599 Updated</strong>
+                  <div style="font-size: 0.875rem; color: var(--text-light);">Parent meeting scheduled</div>
+                </div>
+                <div style="font-size: 0.875rem; color: var(--text-light);">1 day ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background-color: #f8fafc; border: 2px solid var(--school-primary); border-radius: 8px; padding: 2rem;">
+        <div style="background-color: var(--school-primary); color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; text-align: center;">
+          <h4 style="margin: 0; color: white;">Staff Portal Integration Flow</h4>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background-color: white; padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+            <div style="width: 40px; height: 40px; background-color: #4285f4; border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">1</div>
+            <div style="font-size: 0.875rem; font-weight: 600;">Staff Login</div>
+            <div style="font-size: 0.75rem; color: var(--text-light);">Single Sign-On</div>
+          </div>
+          
+          <div style="background-color: white; padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+            <div style="width: 40px; height: 40px; background-color: var(--safeshout-purple); border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">2</div>
+            <div style="font-size: 0.875rem; font-weight: 600;">Portal Access</div>
+            <div style="font-size: 0.75rem; color: var(--text-light);">Role-based Permissions</div>
+          </div>
+          
+          <div style="background-color: white; padding: 1rem; border-radius: 6px; text-align: center; border: 1px solid var(--border-color);">
+            <div style="width: 40px; height: 40px; background-color: var(--success-green); border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">3</div>
+            <div style="font-size: 0.875rem; font-weight: 600;">SafeShout Tools</div>
+            <div style="font-size: 0.75rem; color: var(--text-light);">Embedded Interface</div>
+          </div>
+        </div>
+        
+        <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+          <h5 style="color: var(--school-primary); margin-bottom: 1rem;">Integration Features</h5>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 8px; height: 8px; background-color: var(--success-green); border-radius: 50%;"></div>
+              <span style="font-size: 0.875rem;">Automatic iframe resizing</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 8px; height: 8px; background-color: var(--success-green); border-radius: 50%;"></div>
+              <span style="font-size: 0.875rem;">Cross-domain communication</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 8px; height: 8px; background-color: var(--success-green); border-radius: 50%;"></div>
+              <span style="font-size: 0.875rem;">Real-time notifications</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div style="width: 8px; height: 8px; background-color: var(--success-green); border-radius: 50%;"></div>
+              <span style="font-size: 0.875rem;">Theme synchronization</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Integration Options -->
+    <div class="integration-content" id="options">
+      <h2 style="margin-bottom: 1.5rem;">Integration Options</h2>
+      <p style="margin-bottom: 2rem; color: var(--text-light);">
+        Choose the integration method that best fits your school's technical infrastructure and requirements.
+      </p>
+      
+      <div class="integration-options">
+        <div class="option-card">
+          <div class="option-icon" style="background: linear-gradient(135deg, #059669, #10b981);">🔗</div>
+          <h3 class="option-title">Widget Embed</h3>
+          <p class="option-description">
+            Lightweight JavaScript widget that embeds directly into your existing website pages.
+          </p>
+          <ul class="option-features">
+            <li>Easy copy-paste integration</li>
+            <li>Automatic school branding</li>
+            <li>Responsive design</li>
+            <li>No technical expertise required</li>
+            <li>Real-time updates</li>
+          </ul>
+        </div>
+        
+        <div class="option-card">
+          <div class="option-icon" style="background: linear-gradient(135deg, #7c3aed, #a855f7);">📱</div>
+          <h3 class="option-title">iFrame Integration</h3>
+          <p class="option-description">
+            Full SafeShout interface embedded as a seamless iframe within your intranet or portal.
+          </p>
+          <ul class="option-features">
+            <li>Complete SafeShout functionality</li>
+            <li>Single sign-on integration</li>
+            <li>Customizable dimensions</li>
+            <li>Secure cross-domain communication</li>
+            <li>Auto-sizing capabilities</li>
+          </ul>
+        </div>
+        
+        <div class="option-card">
+          <div class="option-icon" style="background: linear-gradient(135deg, #dc2626, #ef4444);">⚡</div>
+          <h3 class="option-title">API Integration</h3>
+          <p class="option-description">
+            Deep integration using SafeShout APIs to build custom interfaces within your existing systems.
+          </p>
+          <ul class="option-features">
+            <li>Complete API access</li>
+            <li>Custom user interfaces</li>
+            <li>Data synchronization</li>
+            <li>Webhook notifications</li>
+            <li>White-label branding</li>
+          </ul>
+        </div>
+        
+        <div class="option-card">
+          <div class="option-icon" style="background: linear-gradient(135deg, #0891b2, #06b6d4);">🔐</div>
+          <h3 class="option-title">SSO Integration</h3>
+          <p class="option-description">
+            Seamless single sign-on integration with your existing authentication systems.
+          </p>
+          <ul class="option-features">
+            <li>SAML 2.0 support</li>
+            <li>OAuth 2.0 / OpenID Connect</li>
+            <li>Active Directory integration</li>
+            <li>Google Workspace SSO</li>
+            <li>Microsoft 365 SSO</li>
+          </ul>
+        </div>
+        
+        <div class="option-card">
+          <div class="option-icon" style="background: linear-gradient(135deg, #ea580c, #f97316);">📊</div>
+          <h3 class="option-title">Dashboard Integration</h3>
+          <p class="option-description">
+            Embed SafeShout analytics and reporting directly into your existing admin dashboards.
+          </p>
+          <ul class="option-features">
+            <li>Real-time statistics</li>
+            <li>Custom reporting views</li>
+            <li>Data export capabilities</li>
+            <li>Alert notifications</li>
+            <li>Trend analysis</li>
+          </ul>
+        </div>
+        
+        <div class="option-card">
+          <div class="option-icon" style="background: linear-gradient(135deg, #16a34a, #22c55e);">📱</div>
+          <h3 class="option-title">Mobile App Integration</h3>
+          <p class="option-description">
+            Integrate SafeShout functionality into your existing school mobile applications.
+          </p>
+          <ul class="option-features">
+            <li>Mobile SDK integration</li>
+            <li>Native app embedding</li>
+            <li>Push notification support</li>
+            <li>Offline capability</li>
+            <li>Cross-platform support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Technical Implementation -->
+    <div class="integration-content" id="technical">
+      <h2 style="margin-bottom: 1.5rem;">Technical Implementation Guide</h2>
+      <p style="margin-bottom: 2rem; color: var(--text-light);">
+        Detailed implementation examples and configuration options for each integration method.
+      </p>
+      
+      <div style="margin-bottom: 2rem;">
+        <h3 style="color: var(--safeshout-purple); margin-bottom: 1rem;">1. Basic Widget Integration</h3>
+        <p style="margin-bottom: 1rem;">Add the SafeShout widget to any page with minimal code:</p>
+        
+        <div style="background-color: #f8fafc; border: 2px solid var(--safeshout-orange); border-radius: 8px; padding: 2rem;">
+          <div style="background-color: var(--safeshout-orange); color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; text-align: center;">
+            <h4 style="margin: 0; color: white;">3-Step Widget Integration</h4>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color); text-align: center;">
+              <div style="width: 50px; height: 50px; background-color: #4285f4; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">1</div>
+              <h5 style="margin-bottom: 0.5rem; color: var(--safeshout-purple);">Include SDK</h5>
+              <p style="font-size: 0.875rem; color: var(--text-light); margin: 0;">Add SafeShout JavaScript library to your webpage</p>
+            </div>
+            
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color); text-align: center;">
+              <div style="width: 50px; height: 50px; background-color: var(--safeshout-purple); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">2</div>
+              <h5 style="margin-bottom: 0.5rem; color: var(--safeshout-purple);">Create Container</h5>
+              <p style="font-size: 0.875rem; color: var(--text-light); margin: 0;">Add a div element where the widget will appear</p>
+            </div>
+            
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color); text-align: center;">
+              <div style="width: 50px; height: 50px; background-color: var(--success-green); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">3</div>
+              <h5 style="margin-bottom: 0.5rem; color: var(--safeshout-purple);">Initialize Widget</h5>
+              <p style="font-size: 0.875rem; color: var(--text-light); margin: 0;">Configure with your school settings and branding</p>
+            </div>
+          </div>
+          
+          <div style="margin-top: 1.5rem; padding: 1rem; background-color: #e6fffa; border-radius: 6px; border-left: 4px solid var(--success-green);">
+            <h6 style="color: var(--success-green); margin-bottom: 0.5rem;">✓ Auto-Configuration Included</h6>
+            <p style="font-size: 0.875rem; color: var(--text-dark); margin: 0;">School branding, SSO settings, and mobile optimization applied automatically</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 2rem;">
+        <h3 style="color: var(--safeshout-purple); margin-bottom: 1rem;">2. Advanced Portal Integration</h3>
+        <p style="margin-bottom: 1rem;">Full portal integration with SSO and custom permissions:</p>
+        
+        <div style="background-color: #f8fafc; border: 2px solid var(--school-primary); border-radius: 8px; padding: 2rem;">
+          <div style="background-color: var(--school-primary); color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; text-align: center;">
+            <h4 style="margin: 0; color: white;">Advanced Portal Integration Architecture</h4>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 1.5rem;">
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+              <h5 style="color: var(--school-primary); margin-bottom: 1rem;">SSO Integration</h5>
+              <div style="space-y: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <div style="width: 12px; height: 12px; background-color: #4285f4; border-radius: 50%;"></div>
+                  <span style="font-size: 0.875rem;">SAML 2.0 Authentication</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <div style="width: 12px; height: 12px; background-color: var(--success-green); border-radius: 50%;"></div>
+                  <span style="font-size: 0.875rem;">Auto-login Detection</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <div style="width: 12px; height: 12px; background-color: var(--safeshout-orange); border-radius: 50%;"></div>
+                  <span style="font-size: 0.875rem;">Role-based Permissions</span>
+                </div>
+              </div>
+            </div>
+            
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+              <h5 style="color: var(--school-primary); margin-bottom: 1rem;">Real-time Features</h5>
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div style="padding: 0.75rem; background-color: #e6fffa; border-radius: 4px; text-align: center;">
+                  <div style="font-weight: 600; color: var(--success-green);">Live Notifications</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">New reports & updates</div>
+                </div>
+                <div style="padding: 0.75rem; background-color: #fef3e2; border-radius: 4px; text-align: center;">
+                  <div style="font-weight: 600; color: var(--safeshout-orange);">Auto-resize</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Dynamic iframe sizing</div>
+                </div>
+                <div style="padding: 0.75rem; background-color: #f0f4ff; border-radius: 4px; text-align: center;">
+                  <div style="font-weight: 600; color: #4285f4;">Theme Sync</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Matches portal design</div>
+                </div>
+                <div style="padding: 0.75rem; background-color: #f3e8ff; border-radius: 4px; text-align: center;">
+                  <div style="font-weight: 600; color: var(--safeshout-purple);">Event Handlers</div>
+                  <div style="font-size: 0.75rem; color: var(--text-light);">Custom integrations</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="padding: 1rem; background-color: #fff5f0; border-radius: 6px; border-left: 4px solid var(--safeshout-orange);">
+            <h6 style="color: var(--safeshout-orange); margin-bottom: 0.5rem;">🔧 Technical Implementation</h6>
+            <p style="font-size: 0.875rem; color: var(--text-dark); margin: 0;">Complete iframe embedding with cross-domain messaging, automatic authentication, and seamless user experience</p>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 2rem;">
+        <h3 style="color: var(--safeshout-purple); margin-bottom: 1rem;">3. API Integration Examples</h3>
+        <p style="margin-bottom: 1rem;">Direct API integration for custom implementations:</p>
+        
+        <div style="background-color: #f8fafc; border: 2px solid #7c3aed; border-radius: 8px; padding: 2rem;">
+          <div style="background-color: #7c3aed; color: white; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; text-align: center;">
+            <h4 style="margin: 0; color: white;">API Integration Workflow</h4>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background-color: #4285f4; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">API</div>
+                <h5 style="margin: 0; color: var(--safeshout-purple);">Initialize Client</h5>
+              </div>
+              <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• API Key Authentication</li>
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• School ID Configuration</li>
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• Environment Settings</li>
+              </ul>
+            </div>
+            
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background-color: var(--success-green); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">📝</div>
+                <h5 style="margin: 0; color: var(--safeshout-purple);">Submit Reports</h5>
+              </div>
+              <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• Programmatic Submissions</li>
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• Auto Priority Calculation</li>
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• File Attachments Support</li>
+              </ul>
+            </div>
+            
+            <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                <div style="width: 40px; height: 40px; background-color: var(--safeshout-orange); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">📊</div>
+                <h5 style="margin: 0; color: var(--safeshout-purple);">Data Retrieval</h5>
+              </div>
+              <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• Advanced Filtering</li>
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• Paginated Results</li>
+                <li style="padding: 0.25rem 0; font-size: 0.875rem;">• Real-time Updates</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div style="background-color: white; padding: 1.5rem; border-radius: 6px; border: 1px solid var(--border-color);">
+            <h5 style="color: var(--safeshout-purple); margin-bottom: 1rem;">Webhook Integration</h5>
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 12px; height: 12px; background-color: var(--success-green); border-radius: 50%;"></div>
+                <span style="font-size: 0.875rem;">Real-time Event Notifications</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 12px; height: 12px; background-color: #4285f4; border-radius: 50%;"></div>
+                <span style="font-size: 0.875rem;">Secure Webhook Delivery</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div style="width: 12px; height: 12px; background-color: var(--safeshout-orange); border-radius: 50%;"></div>
+                <span style="font-size: 0.875rem;">Custom Event Handling</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 2rem;">
+        <h3 style="color: var(--safeshout-purple); margin-bottom: 1rem;">4. Configuration Options</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+          <div class="option-card">
+            <h4 style="color: var(--safeshout-purple); margin-bottom: 1rem;">Authentication</h4>
+            <ul class="option-features">
+              <li>SAML 2.0 SSO integration</li>
+              <li>OAuth 2.0 / OpenID Connect</li>
+              <li>JWT token authentication</li>
+              <li>Active Directory LDAP</li>
+              <li>Google Workspace SSO</li>
+              <li>Microsoft 365 SSO</li>
+            </ul>
+          </div>
+          
+          <div class="option-card">
+            <h4 style="color: var(--safeshout-purple); margin-bottom: 1rem;">Branding</h4>
+            <ul class="option-features">
+              <li>Custom color schemes</li>
+              <li>Logo integration</li>
+              <li>Custom fonts and typography</li>
+              <li>Personalized messaging</li>
+              <li>White-label options</li>
+              <li>Mobile responsive design</li>
+            </ul>
+          </div>
+          
+          <div class="option-card">
+            <h4 style="color: var(--safeshout-purple); margin-bottom: 1rem;">Data Integration</h4>
+            <ul class="option-features">
+              <li>Student information sync</li>
+              <li>Staff directory integration</li>
+              <li>Existing case data import</li>
+              <li>Real-time notifications</li>
+              <li>Automated reporting</li>
+              <li>Export capabilities</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <h3 style="color: var(--safeshout-purple); margin-bottom: 1rem;">Ready to Get Started?</h3>
+        <p style="margin-bottom: 2rem; color: var(--text-light);">
+          Contact our technical team to discuss the best integration approach for your school
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="#" class="demo-button">Schedule Technical Consultation</a>
+          <a href="#" class="demo-button" style="background: transparent; color: var(--safeshout-purple); border: 1px solid var(--border-color);">Download Integration Guide</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    // Tab switching functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.showcase-tab');
+      const contents = document.querySelectorAll('.integration-content');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-tab');
+          
+          // Remove active class from all tabs and contents
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab and corresponding content
+          this.classList.add('active');
+          document.getElementById(targetId).classList.add('active');
+        });
+      });
+    });
+    
+    // Demo functions
+    function showReportingDemo() {
+      alert('Demo: This would open the SafeShout reporting interface embedded within your school website, maintaining your branding and navigation.');
+    }
+    
+    function showResourcesDemo() {
+      alert('Demo: This would display school-specific safeguarding resources and policies integrated with SafeShout content.');
+    }
+  </script>
+</body>
+</html>

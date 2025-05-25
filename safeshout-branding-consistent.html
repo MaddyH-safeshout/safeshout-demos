@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafeShout | Branding Customization Tool</title>
+  <style>
+    /* Base styles */
+    :root {
+      /* SafeShout brand colors */
+      --safeshout-purple: #3a1a78;
+      --safeshout-orange: #ff5b37;
+      
+      /* School colors - customizable */
+      --school-primary: #1a365d;
+      --school-secondary: #2c5282;
+      --school-accent: #90cdf4;
+      
+      /* UI colors */
+      --text-dark: #2d3748;
+      --text-light: #718096;
+      --bg-light: #f7fafc;
+      --bg-white: #ffffff;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-dark);
+      background-color: var(--bg-light);
+      line-height: 1.5;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+      color: var(--safeshout-purple);
+    }
+    
+    a {
+      color: var(--safeshout-purple);
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    p {
+      margin-bottom: 1rem;
+    }
+    
+    /* Layout */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -1rem;
+    }
+    
+    .col {
+      flex: 1;
+      padding: 0 1rem;
+    }
+    
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column;
+      }
+      
+      .col {
+        margin-bottom: 2rem;
+      }
+    }
+    
+    /* Header */
+    .header {
+      background-color: white;
+      box-shadow: var(--shadow-sm);
+      padding: 1rem 0;
+      margin-bottom: 2rem;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo-divider {
+      width: 1px;
+      height: 36px;
+      background-color: var(--border-color);
+      margin: 0 1rem;
+    }
+    
+    /* Components */
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .card-title {
+      margin-bottom: 0;
+      font-size: 1.25rem;
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+    
+    .tab {
+      padding: 0.75rem 1.25rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .tab.active {
+      color: var(--safeshout-purple);
+      border-bottom-color: var(--safeshout-orange);
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Buttons */
+    .button {
+      display: inline-block;
+      background-color: var(--safeshout-purple);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    
+    .button:hover {
+      opacity: 0.9;
+      text-decoration: none;
+    }
+    
+    .button-outline {
+      background-color: transparent;
+      color: var(--text-dark);
+      border: 1px solid var(--border-color);
+    }
+    
+    .button-outline:hover {
+      background-color: var(--bg-light);
+    }
+    
+    .button-school {
+      background-color: var(--school-primary);
+    }
+    
+    /* Forms */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--school-primary);
+      box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+    }
+    
+    .form-hint {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    /* Color customizer */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .color-card {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .color-preview {
+      height: 100px;
+      position: relative;
+    }
+    
+    .color-primary {
+      background-color: var(--school-primary);
+    }
+    
+    .color-secondary {
+      background-color: var(--school-secondary);
+    }
+    
+    .color-accent {
+      background-color: var(--school-accent);
+    }
+    
+    .color-safeshout-primary {
+      background-color: var(--safeshout-purple);
+    }
+    
+    .color-safeshout-secondary {
+      background-color: var(--safeshout-orange);
+    }
+    
+    .color-info {
+      padding: 1rem;
+    }
+    
+    .color-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .color-hex {
+      font-family: monospace;
+      color: var(--text-light);
+    }
+    
+    .color-description {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+    }
+    
+    .color-locked {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+    
+    .color-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .color-sample {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    
+    .color-sample:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Switches */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .switch-slider {
+      background-color: var(--school-primary);
+    }
+    
+    input:focus + .switch-slider {
+      box-shadow: 0 0 1px var(--school-primary);
+    }
+    
+    input:checked + .switch-slider:before {
+      transform: translateX(26px);
+    }
+    
+    .switch-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    
+    .switch-label {
+      margin-left: 0.75rem;
+    }
+    
+    /* Logo uploader */
+    .logo-uploader {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
+    }
+    
+    .logo-preview {
+      background-color: var(--bg-light);
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    
+    /* Device previews */
+    .device-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .device {
+      flex: 1;
+      min-width: 320px;
+      max-width: 600px;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    
+    .device-mobile {
+      min-width: 280px;
+      max-width: 320px;
+      height: 600px;
+    }
+    
+    .device-header {
+      background-color: var(--school-primary);
+      color: white;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .device-content {
+      padding: 1rem;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    
+    .device-mobile .device-content {
+      max-height: 560px;
+    }
+    
+    /* Dashboard elements */
+    .alert-box {
+      padding: 1rem;
+      border-radius: 4px;
+      background-color: var(--bg-light);
+      border-left: 3px solid var(--school-primary);
+      margin-bottom: 1rem;
+    }
+    
+    .dashboard-card {
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .stat-card {
+      background-color: var(--bg-light);
+      border-radius: 4px;
+      padding: 1rem;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--school-primary);
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+    
+    /* Mobile app elements */
+    .mobile-welcome {
+      padding: 0.75rem;
+      border-radius: 8px;
+      background-color: var(--bg-light);
+      border-left: 3px solid var(--school-primary);
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .mobile-button {
+      display: block;
+      width: 100%;
+      background-color: var(--school-primary);
+      color: white;
+      text-align: center;
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    .mobile-icon-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .mobile-icon-button {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-light);
+      padding: 0.75rem 0.5rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+    }
+    
+    .mobile-emergency {
+      padding: 0.75rem;
+      border-radius: 8px;
+      background-color: #fff5f5;
+      border-left: 3px solid #e53e3e;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    /* Map */
+    .map-container {
+      height: 300px;
+      background-color: #dbeafe;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .map-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(#cbd5e0 1px, transparent 1px), 
+                        linear-gradient(90deg, #cbd5e0 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0.3;
+    }
+    
+    .map-marker {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: var(--safeshout-orange);
+      border: 2px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    
+    .map-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.75rem;
+      background-color: rgba(255,255,255,0.9);
+      border-top: 1px solid var(--border-color);
+    }
+    
+    /* Helpers */
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mb-1 { margin-bottom: 0.25rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .text-light { color: var(--text-light); }
+    
+    .flex { display: flex; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-4 { gap: 1rem; }
+    
+    .file-upload-container {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+    }
+    
+    .file-upload-container input[type=file] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="logo-container">
+        <!-- SafeShout Logo -->
+        <div class="safeshout-logo" style="display: flex; align-items: center;">
+          <svg width="40" height="30" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+            <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+          </svg>
+          <span style="font-weight: bold; font-size: 1.25rem; margin-left: 0.5rem; color: #3a1a78;">SafeShout</span>
+        </div>
+        
+        <!-- Divider -->
+        <div class="logo-divider"></div>
+        
+        <!-- School Logo -->
+        <div id="header-school-logo">
+          <svg width="120" height="40" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="6" fill="#1a365d"/>
+            <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="white"/>
+            <path d="M50 14H55C56 14 57 14.2 57.7 14.6C58.4 15 59 15.5 59.4 16.2C59.8 16.9 60 17.7 60 18.6C60 19.5 59.8 20.3 59.4 21C59 21.7 58.4 22.2 57.7 22.6C57 23 56 23.2 55 23.2H52V28H50V14ZM55 21.5C55.6 21.5 56.2 21.4 56.6 21.1C57.1 20.8 57.5 20.5 57.7 20.1C58 19.7 58.1 19.2 58.1 18.6C58.1 18 58 17.5 57.7 17.1C57.4 16.7 57.1 16.4 56.6 16.1C56.1 15.8 55.6 15.7 55 15.7H52V21.5H55Z" fill="#1a365d"/>
+          </svg>
+        </div>
+      </div>
+      
+      <div class="header-actions">
+        <button class="button button-outline mr-2" id="save-btn">Save Changes</button>
+        <button class="button" id="preview-btn">Preview</button>
+      </div>
+    </div>
+  </header>
+  
+  <main class="container">
+    <h1>School Branding &amp; Customization</h1>
+    <p class="mb-4">Customize the SafeShout experience for your school while maintaining the trusted SafeShout reporting capabilities. Personalize colors, logos, messaging, and integrate your school's safeguarding policies.</p>
+    
+    <div class="tabs">
+      <div class="tab active" data-tab="colors">Colors</div>
+      <div class="tab" data-tab="logo">Logo</div>
+      <div class="tab" data-tab="messages">Messaging</div>
+      <div class="tab" data-tab="policies">Policies</div>
+      <div class="tab" data-tab="preview">Preview</div>
+    </div>
+    
+    <!-- Colors Tab -->
+    <div class="tab-content active" id="colors">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">School Colors</h2>
+        </div>
+        
+        <p>Customize your school colors to match your branding while maintaining core SafeShout functionality.</p>
+        
+        <div class="color-grid">
+          <div class="color-card">
+            <div class="color-preview color-primary"></div>
+            <div class="color-info">
+              <div class="color-name">Primary Color</div>
+              <div class="color-hex" id="primary-hex-display">#1a365d</div>
+              <div class="color-description">Used for headers, navigation, and buttons</div>
+            </div>
+          </div>
+          
+          <div class="color-card">
+            <div class="color-preview color-secondary"></div>
+            <div class="color-info">
+              <div class="color-name">Secondary Color</div>
+              <div class="color-hex" id="secondary-hex-display">#2c5282</div>
+              <div class="color-description">Used for accents and highlights</div>
+            </div>
+          </div>
+          
+          <div class="color-card">
+            <div class="color-preview color-accent"></div>
+            <div class="color-info">
+              <div class="color-name">Accent Color</div>
+              <div class="color-hex" id="accent-hex-display">#90cdf4</div>
+              <div class="color-description">Used for minor accents and backgrounds</div>
+            </div>
+          </div>
+          
+          <div class="color-card">
+            <div class="color-preview color-safeshout-primary">
+              <div class="color-locked">Core Brand</div>
+            </div>
+            <div class="color-info">
+              <div class="color-name">SafeShout Purple</div>
+              <div class="color-hex">#3a1a78</div>
+              <div class="color-description">Core brand element (not customizable)</div>
+            </div>
+          </div>
+          
+          <div class="color-card">
+            <div class="color-preview color-safeshout-secondary">
+              <div class="color-locked">Core Brand</div>
+            </div>
+            <div class="color-info">
+              <div class="color-name">SafeShout Orange</div>
+              <div class="color-hex">#ff5b37</div>
+              <div class="color-description">Core brand element (not customizable)</div>
+            </div>
+          </div>
+        </div>
+        
+        <h3>Color Palettes</h3>
+        <p class="mb-4">Choose from pre-defined color palettes or use your own custom colors.</p>
+        
+        <div class="form-group">
+          <label class="form-label">Blue Palette</label>
+          <div class="color-palette">
+            <div class="color-sample" style="background-color: #1a365d;" data-color="#1a365d" data-type="primary"></div>
+            <div class="color-sample" style="background-color: #2c5282;" data-color="#2c5282" data-type="secondary"></div>
+            <div class="color-sample" style="background-color: #90cdf4;" data-color="#90cdf4" data-type="accent"></div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Green Palette</label>
+          <div class="color-palette">
+            <div class="color-sample" style="background-color: #276749;" data-color="#276749" data-type="primary"></div>
+            <div class="color-sample" style="background-color: #2f855a;" data-color="#2f855a" data-type="secondary"></div>
+            <div class="color-sample" style="background-color: #9ae6b4;" data-color="#9ae6b4" data-type="accent"></div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Burgundy Palette</label>
+          <div class="color-palette">
+            <div class="color-sample" style="background-color: #742a2a;" data-color="#742a2a" data-type="primary"></div>
+            <div class="color-sample" style="background-color: #9b2c2c;" data-color="#9b2c2c" data-type="secondary"></div>
+            <div class="color-sample" style="background-color: #feb2b2;" data-color="#feb2b2" data-type="accent"></div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Custom Primary Color</label>
+          <div class="flex gap-2">
+            <input type="text" id="custom-primary" class="form-control" placeholder="#1a365d" style="max-width: 200px;">
+            <button class="button button-outline" id="apply-primary">Apply</button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Custom Secondary Color</label>
+          <div class="flex gap-2">
+            <input type="text" id="custom-secondary" class="form-control" placeholder="#2c5282" style="max-width: 200px;">
+            <button class="button button-outline" id="apply-secondary">Apply</button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Custom Accent Color</label>
+          <div class="flex gap-2">
+            <input type="text" id="custom-accent" class="form-control" placeholder="#90cdf4" style="max-width: 200px;">
+            <button class="button button-outline" id="apply-accent">Apply</button>
+          </div>
+        </div>
+        
+        <div class="flex gap-2 mt-4">
+          <button class="button" id="save-colors">Save Colors</button>
+          <button class="button button-outline" id="reset-colors">Reset to Default</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Logo Tab -->
+    <div class="tab-content" id="logo">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">School Logo</h2>
+        </div>
+        
+        <p>Upload your school logo to be displayed alongside SafeShout branding.</p>
+        
+        <div class="logo-uploader">
+          <div class="logo-preview" id="logo-preview">
+            <svg width="160" height="50" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="6" fill="#1a365d"/>
+              <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="white"/>
+              <path d="M50 14H55C56 14 57 14.2 57.7 14.6C58.4 15 59 15.5 59.4 16.2C59.8 16.9 60 17.7 60 18.6C60 19.5 59.8 20.3 59.4 21C59 21.7 58.4 22.2 57.7 22.6C57 23 56 23.2 55 23.2H52V28H50V14ZM55 21.5C55.6 21.5 56.2 21.4 56.6 21.1C57.1 20.8 57.5 20.5 57.7 20.1C58 19.7 58.1 19.2 58.1 18.6C58.1 18 58 17.5 57.7 17.1C57.4 16.7 57.1 16.4 56.6 16.1C56.1 15.8 55.6 15.7 55 15.7H52V21.5H55Z" fill="#1a365d"/>
+            </svg>
+          </div>
+          
+          <div class="form-group">
+            <div class="file-upload-container">
+              <button class="button button-school" id="upload-logo-btn">Upload School Logo</button>
+              <input type="file" id="logo-upload" accept="image/*">
+            </div>
+            <button class="button button-outline" id="remove-logo-btn">Remove</button>
+            <div class="form-hint">Recommended size: 160×50px. PNG or SVG format with transparent background.</div>
+          </div>
+        </div>
+        
+        <h3>Logo Display Settings</h3>
+        
+        <div class="form-group">
+          <label class="form-label">Logo Position</label>
+          <select id="logo-position" class="form-control" style="max-width: 300px;">
+            <option value="right" selected>Right of SafeShout Logo</option>
+            <option value="left">Left of SafeShout Logo</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Logo Size</label>
+          <select id="logo-size" class="form-control" style="max-width: 300px;">
+            <option value="smaller">Smaller than SafeShout Logo</option>
+            <option value="same" selected>Same size as SafeShout Logo</option>
+            <option value="larger">Larger than SafeShout Logo</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Show School Logo On:</label>
+          
+          <div class="switch-group">
+            <label class="switch">
+              <input type="checkbox" id="show-header" checked>
+              <span class="switch-slider"></span>
+            </label>
+            <span class="switch-label">Header/Navigation</span>
+          </div>
+          
+          <div class="switch-group">
+            <label class="switch">
+              <input type="checkbox" id="show-dashboard" checked>
+              <span class="switch-slider"></span>
+            </label>
+            <span class="switch-label">Dashboard</span>
+          </div>
+          
+          <div class="switch-group">
+            <label class="switch">
+              <input type="checkbox" id="show-mobile">
+              <span class="switch-slider"></span>
+            </label>
+            <span class="switch-label">Mobile App</span>
+          </div>
+          
+          <div class="switch-group">
+            <label class="switch">
+              <input type="checkbox" id="show-reports" checked>
+              <span class="switch-slider"></span>
+            </label>
+            <span class="switch-label">Reports and Forms</span>
+          </div>
+        </div>
+        
+        <div class="flex gap-2 mt-4">
+          <button class="button" id="save-logo">Save Logo Settings</button>
+          <button class="button button-outline" id="reset-logo">Reset to Default</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Messaging Tab -->
+    <div class="tab-content" id="messages">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Dashboard Messages</h2>
+        </div>
+        
+        <p>Customize the messages that appear on the dashboard for your students and staff.</p>
+        
+        <div class="form-group">
+          <label class="form-label">Dashboard Welcome Message</label>
+          <textarea id="dashboard-welcome" class="form-control">Welcome to Parkview Academy's SafeShout portal. If you have any concerns about your wellbeing or that of another student, you can report it here safely. Our dedicated safeguarding team is here to help you.</textarea>
+          <div class="form-hint">This message appears at the top of the dashboard when students log in.</div>
+        </div>
+        
+        <div class="dashboard-preview mt-4 mb-4">
+          <div class="dashboard-card">
+            <div class="alert-box" id="dashboard-welcome-preview">
+              Welcome to Parkview Academy's SafeShout portal. If you have any concerns about your wellbeing or that of another student, you can report it here safely. Our dedicated safeguarding team is here to help you.
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Reporting Introduction</label>
+          <textarea id="reporting-intro" class="form-control">At Parkview Academy, we take all concerns seriously. You can share your concerns anonymously or with your name. Our safeguarding team follows clear procedures to help keep everyone safe.</textarea>
+          <div class="form-hint">This message appears before a student begins the reporting process.</div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Safeguarding Team Information</label>
+          <textarea id="safeguarding-info" class="form-control">Designated Safeguarding Lead: Ms. Sarah Johnson
+Deputy Safeguarding Lead: Mr. David Thompson
+Safeguarding Office: Room 103, Main Building
+Phone: 01234 567890 (school hours)
+Email: safeguarding@parkview.edu</textarea>
+          <div class="form-hint">This information is displayed to students in the Help section.</div>
+        </div>
+        
+        <div class="flex gap-2 mt-4">
+          <button class="button" id="save-dashboard-messages">Save Messages</button>
+          <button class="button button-outline" id="reset-dashboard-messages">Reset to Default</button>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Mobile App Messages</h2>
+        </div>
+        
+        <p>Customize the messages that appear on the mobile app for your students.</p>
+        
+        <div class="form-group">
+          <label class="form-label">Mobile Welcome Message</label>
+          <textarea id="mobile-welcome" class="form-control">Welcome to the Parkview Academy SafeShout app. Tap 'Report' to share a concern securely and confidentially.</textarea>
+          <div class="form-hint">This message appears when students open the mobile app.</div>
+        </div>
+        
+        <div class="mobile-preview mt-4 mb-4">
+          <div class="dashboard-card">
+            <div class="mobile-welcome" id="mobile-welcome-preview">
+              Welcome to the Parkview Academy SafeShout app. Tap 'Report' to share a concern securely and confidentially.
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Mobile Reporting Instructions</label>
+          <textarea id="mobile-instructions" class="form-control">You can report anonymously or provide your name. All reports are encrypted and handled confidentially by our safeguarding team.</textarea>
+          <div class="form-hint">These instructions appear on the mobile reporting screen.</div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Mobile Emergency Information</label>
+          <textarea id="mobile-emergency" class="form-control">For immediate assistance during school hours, please contact the safeguarding office at 01234 567890. Outside school hours, please contact emergency services if you are in danger.</textarea>
+          <div class="form-hint">This information is displayed in the emergency information section.</div>
+        </div>
+        
+        <div class="flex gap-2 mt-4">
+          <button class="button" id="save-mobile-messages">Save Messages</button>
+          <button class="button button-outline" id="reset-mobile-messages">Reset to Default</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Policies Tab -->
+    <div class="tab-content" id="policies">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">School Policies &amp; Procedures</h2>
+        </div>
+        
+        <p>Upload your school's safeguarding policies to integrate with SafeShout. These will be accessible to students within the platform.</p>
+        
+        <div style="border: 2px dashed var(--border-color); border-radius: 8px; padding: 2rem; text-align: center; margin-bottom: 1.5rem;">
+          <h3 class="mb-2">Drop your policy documents here</h3>
+          <p class="text-sm text-light mb-4">or click to browse files</p>
+          <div class="file-upload-container">
+            <button class="button button-school">Upload Policies</button>
+            <input type="file" id="policy-upload" accept=".pdf,.doc,.docx">
+          </div>
+        </div>
+        
+        <h3>Uploaded Policies</h3>
+        
+        <ul style="list-style: none; margin-bottom: 1.5rem;">
+          <li class="dashboard-card flex justify-between items-center">
+            <div>
+              <div style="font-weight: 500;">Parkview Academy Child Protection Policy.pdf</div>
+              <div class="text-sm text-light">420 KB · Uploaded on May 15, 2024</div>
+            </div>
+            <button class="button button-outline" data-policy="policy1">Remove</button>
+          </li>
+          <li class="dashboard-card flex justify-between items-center">
+            <div>
+              <div style="font-weight: 500;">Anti-Bullying Procedures.pdf</div>
+              <div class="text-sm text-light">310 KB · Uploaded on May 15, 2024</div>
+            </div>
+            <button class="button button-outline" data-policy="policy2">Remove</button>
+          </li>
+          <li class="dashboard-card flex justify-between items-center">
+            <div>
+              <div style="font-weight: 500;">Online Safety Policy 2024-2025.pdf</div>
+              <div class="text-sm text-light">520 KB · Uploaded on May 15, 2024</div>
+            </div>
+            <button class="button button-outline" data-policy="policy3">Remove</button>
+          </li>
+        </ul>
+        
+        <h3>Policy Display Settings</h3>
+        
+        <div class="form-group">
+          <div class="switch-group">
+            <label class="switch">
+              <input type="checkbox" id="require-acknowledge" checked>
+              <span class="switch-slider"></span>
+            </label>
+            <span class="switch-label">Require policy acknowledgment before first report</span>
+          </div>
+          
+          <div class="switch-group">
+            <label class="switch">
+              <input type="checkbox" id="show-in-reporting" checked>
+              <span class="switch-slider"></span>
+            </label>
+            <span class="switch-label">Show relevant policies during the reporting process</span>
+          </div>
+          
+          <div class="switch-group">
+            <label class="switch">
+              <input type="checkbox" id="include-in-dashboard" checked>
+              <span class="switch-slider"></span>
+            </label>
+            <span class="switch-label">Include policy references in staff dashboard</span>
+          </div>
+        </div>
+        
+        <h3 class="mt-4">Policy Mapping</h3>
+        <p class="mb-4">Map your school policies to SafeShout report categories so students see relevant guidance during reporting.</p>
+        
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+          <tr style="background-color: var(--bg-light);">
+            <th style="text-align: left; padding: 0.75rem; border: 1px solid var(--border-color);">Report Category</th>
+            <th style="text-align: left; padding: 0.75rem; border: 1px solid var(--border-color);">School Policy</th>
+          </tr>
+          <tr>
+            <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Bullying</td>
+            <td style="padding: 0.75rem; border: 1px solid var(--border-color);">
+              <select class="form-control">
+                <option value="policy2" selected>Anti-Bullying Procedures.pdf</option>
+                <option value="policy1">Parkview Academy Child Protection Policy.pdf</option>
+                <option value="policy3">Online Safety Policy 2024-2025.pdf</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Online Safety</td>
+            <td style="padding: 0.75rem; border: 1px solid var(--border-color);">
+              <select class="form-control">
+                <option value="policy3" selected>Online Safety Policy 2024-2025.pdf</option>
+                <option value="policy1">Parkview Academy Child Protection Policy.pdf</option>
+                <option value="policy2">Anti-Bullying Procedures.pdf</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0.75rem; border: 1px solid var(--border-color);">Safeguarding</td>
+            <td style="padding: 0.75rem; border: 1px solid var(--border-color);">
+              <select class="form-control">
+                <option value="policy1" selected>Parkview Academy Child Protection Policy.pdf</option>
+                <option value="policy2">Anti-Bullying Procedures.pdf</option>
+                <option value="policy3">Online Safety Policy 2024-2025.pdf</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+        
+        <div class="flex gap-2 mt-4">
+          <button class="button" id="save-policies">Save Policy Settings</button>
+          <button class="button button-outline" id="reset-policies">Reset to Default</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Preview Tab -->
+    <div class="tab-content" id="preview">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Preview Customizations</h2>
+        </div>
+        
+        <p>See how your SafeShout instance will look with your school's branding, messages, and policies.</p>
+        
+        <div class="tabs">
+          <div class="tab active" data-tab="desktop-preview">Dashboard</div>
+          <div class="tab" data-tab="mobile-preview">Mobile App</div>
+          <div class="tab" data-tab="report-preview">Report Flow</div>
+        </div>
+        
+        <div class="tab-content active" id="desktop-preview">
+          <h3>Dashboard Preview</h3>
+          
+          <div class="device">
+            <div class="device-header">
+              <div class="flex items-center gap-2">
+                <!-- SafeShout mini logo -->
+                <div style="display: flex; align-items: center;">
+                  <svg width="24" height="20" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+                    <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+                  </svg>
+                  <span style="font-weight: bold; font-size: 0.9rem; margin-left: 0.25rem; color: white;">SafeShout</span>
+                </div>
+                
+                <!-- Logo divider -->
+                <div style="width: 1px; height: 20px; background-color: rgba(255,255,255,0.3); margin: 0 0.5rem;"></div>
+                
+                <!-- School mini logo -->
+                <div id="dashboard-school-logo">
+                  <svg width="80" height="24" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="24" rx="4" fill="#1a365d"/>
+                    <path d="M12 5L19 10V19H15V15H9V19H5V10L12 5Z" fill="white"/>
+                  </svg>
+                </div>
+              </div>
+              
+              <div>Dashboard</div>
+            </div>
+            
+            <div class="device-content">
+              <div class="alert-box" id="dashboard-preview-message">
+                Welcome to Parkview Academy's SafeShout portal. If you have any concerns about your wellbeing or that of another student, you can report it here safely. Our dedicated safeguarding team is here to help you.
+              </div>
+              
+              <div class="dashboard-stats">
+                <div class="stat-card">
+                  <div class="stat-value">3</div>
+                  <div class="stat-label">My Reports</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value">1</div>
+                  <div class="stat-label">Unread Updates</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value">2</div>
+                  <div class="stat-label">In Progress</div>
+                </div>
+              </div>
+              
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <button class="button button-school">New Report</button>
+                <button class="button button-outline">View Reports</button>
+              </div>
+              
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">Recent Activity</div>
+              <div class="dashboard-card">
+                <div style="font-weight: 500;">Report #24601 Updated</div>
+                <div class="text-sm text-light">May 18, 2024 at 3:45 PM</div>
+                <div class="text-sm mt-2">A staff member has responded to your report.</div>
+              </div>
+              
+              <div class="dashboard-card">
+                <div style="font-weight: 500;">New Resource Added</div>
+                <div class="text-sm text-light">May 17, 2024 at 10:20 AM</div>
+                <div class="text-sm mt-2">Mental Health Support Guide is now available.</div>
+              </div>
+              
+              <div style="font-weight: 600; margin: 1rem 0 0.5rem;">Resources</div>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                <div class="dashboard-card" style="width: calc(50% - 0.25rem); font-size: 0.875rem; text-align: center;">
+                  Anti-Bullying Policy
+                </div>
+                <div class="dashboard-card" style="width: calc(50% - 0.25rem); font-size: 0.875rem; text-align: center;">
+                  Online Safety Guide
+                </div>
+                <div class="dashboard-card" style="width: calc(50% - 0.25rem); font-size: 0.875rem; text-align: center;">
+                  Mental Health Resources
+                </div>
+                <div class="dashboard-card" style="width: calc(50% - 0.25rem); font-size: 0.875rem; text-align: center;">
+                  Safeguarding Information
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="mobile-preview">
+          <h3>Mobile App Preview</h3>
+          
+          <div class="device-container">
+            <div class="device device-mobile">
+              <div class="device-header" style="padding-top: 2rem;">
+                <div class="flex items-center">
+                  <!-- SafeShout mini logo -->
+                  <div style="display: flex; align-items: center;">
+                    <svg width="20" height="16" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+                      <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+                    </svg>
+                    <span style="font-weight: bold; font-size: 0.8rem; margin-left: 0.25rem; color: white;">SafeShout</span>
+                  </div>
+                  
+                  <!-- Logo divider and school logo, shown conditionally -->
+                  <div id="mobile-school-logo" style="display: none;">
+                    <div style="width: 1px; height: 16px; background-color: rgba(255,255,255,0.3); margin: 0 0.5rem;"></div>
+                    <svg width="16" height="16" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="16" height="16" rx="2" fill="#1a365d"/>
+                      <path d="M8 3L13 6V13H10V10H6V13H3V6L8 3Z" fill="white"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="device-content">
+                <div class="mobile-welcome" id="mobile-preview-message">
+                  Welcome to the Parkview Academy SafeShout app. Tap 'Report' to share a concern securely and confidentially.
+                </div>
+                
+                <a href="#" class="mobile-button">Report a Concern</a>
+                
+                <div class="mobile-icon-row">
+                  <div class="mobile-icon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <div class="mt-1">My Reports</div>
+                  </div>
+                  <div class="mobile-icon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <div class="mt-1">Help</div>
+                  </div>
+                  <div class="mobile-icon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    <div class="mt-1">Settings</div>
+                  </div>
+                </div>
+                
+                <div style="font-weight: 500; margin-top: 1rem; margin-bottom: 0.5rem;">Emergency Contacts</div>
+                <div class="mobile-emergency" id="mobile-emergency-preview">
+                  For immediate assistance during school hours, please contact the safeguarding office at 01234 567890. Outside school hours, please contact emergency services if you are in danger.
+                </div>
+                
+                <div class="dashboard-card" style="margin-top: 1.5rem;">
+                  <div style="font-weight: 500; margin-bottom: 0.5rem;">Resources</div>
+                  <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <a href="#" class="text-sm">Anti-Bullying Policy</a>
+                    <a href="#" class="text-sm">Online Safety Guide</a>
+                    <a href="#" class="text-sm">Mental Health Support</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="device device-mobile">
+              <div class="device-header" style="padding-top: 2rem;">
+                <div class="flex items-center">
+                  <!-- SafeShout mini logo -->
+                  <div style="display: flex; align-items: center;">
+                    <svg width="20" height="16" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+                      <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+                    </svg>
+                    <span style="font-weight: bold; font-size: 0.8rem; margin-left: 0.25rem; color: white;">SafeShout</span>
+                  </div>
+                  
+                  <span style="margin-left: auto; font-size: 0.8rem;">Report a Concern</span>
+                </div>
+              </div>
+              
+              <div class="device-content">
+                <div class="mobile-welcome" id="mobile-instructions-preview">
+                  You can report anonymously or provide your name. All reports are encrypted and handled confidentially by our safeguarding team.
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                  <div style="font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem;">Reporting as:</div>
+                  <div style="display: flex; background-color: var(--bg-light); border-radius: 4px; overflow: hidden;">
+                    <div style="flex: 1; padding: 0.5rem; text-align: center; background-color: var(--school-primary); color: white; font-size: 0.875rem;">Named</div>
+                    <div style="flex: 1; padding: 0.5rem; text-align: center; font-size: 0.875rem;">Anonymous</div>
+                  </div>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                  <div style="font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem;">Concern type:</div>
+                  <select class="form-control" style="font-size: 0.875rem;">
+                    <option>Select a concern type</option>
+                    <option>Bullying</option>
+                    <option>Online safety</option>
+                    <option>Mental health</option>
+                    <option>General safeguarding</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                  <div style="font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem;">Description:</div>
+                  <textarea class="form-control" style="min-height: 100px; font-size: 0.875rem;"></textarea>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                  <div style="font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem;">Add evidence (optional):</div>
+                  <div class="mobile-icon-row">
+                    <div class="mobile-icon-button" style="font-size: 0.75rem;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      Photo
+                    </div>
+                    <div class="mobile-icon-button" style="font-size: 0.75rem;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                      Video
+                    </div>
+                    <div class="mobile-icon-button" style="font-size: 0.75rem;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Location
+                    </div>
+                  </div>
+                </div>
+                
+                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                  <div style="display: flex; align-items: center; background-color: var(--safeshout-purple); color: white; border-radius: 9999px; padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    End-to-end encrypted
+                  </div>
+                </div>
+                
+                <a href="#" class="mobile-button">Submit</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tab-content" id="report-preview">
+          <h3>Report Flow Preview</h3>
+          
+          <div class="device">
+            <div class="device-header">
+              <div class="flex items-center gap-2">
+                <!-- SafeShout mini logo -->
+                <div style="display: flex; align-items: center;">
+                  <svg width="24" height="20" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="38" height="28" rx="8" fill="#ff5b37"/>
+                    <path d="M25 30L18 24H10C6 24 4 22 4 18V10C4 6 6 4 10 4H40C44 4 46 6 46 10V18C46 22 44 24 40 24H25V30Z" fill="#ff5b37"/>
+                  </svg>
+                  <span style="font-weight: bold; font-size: 0.9rem; margin-left: 0.25rem; color: white;">SafeShout</span>
+                </div>
+                
+                <!-- Logo divider -->
+                <div style="width: 1px; height: 20px; background-color: rgba(255,255,255,0.3); margin: 0 0.5rem;"></div>
+                
+                <!-- School mini logo -->
+                <div id="reporting-school-logo">
+                  <svg width="80" height="24" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="24" rx="4" fill="#1a365d"/>
+                    <path d="M12 5L19 10V19H15V15H9V19H5V10L12 5Z" fill="white"/>
+                  </svg>
+                </div>
+              </div>
+              
+              <div>Report a Concern</div>
+            </div>
+            
+            <div class="device-content">
+              <div class="alert-box" id="reporting-intro-preview">
+                At Parkview Academy, we take all concerns seriously. You can share your concerns anonymously or with your name. Our safeguarding team follows clear procedures to help keep everyone safe.
+              </div>
+              
+              <div style="margin-bottom: 1.5rem;">
+                <div style="font-weight: 500; margin-bottom: 0.5rem;">How would you like to report?</div>
+                <div style="display: flex; gap: 1rem;">
+                  <button class="button button-school">With my name</button>
+                  <button class="button button-outline">Anonymous</button>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">What are you concerned about?</label>
+                <select class="form-control">
+                  <option>Please select a concern type</option>
+                  <option>Bullying</option>
+                  <option>Online safety</option>
+                  <option>Mental health</option>
+                  <option>Welfare or neglect</option>
+                  <option>Physical safety</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Describe your concern</label>
+                <div class="flex items-center gap-2">
+                  <div style="font-size: 0.875rem; color: var(--safeshout-purple); background-color: var(--bg-light); padding: 0.25rem 0.5rem; border-radius: 4px;">
+                    <span style="display: inline-flex; align-items: center;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                      End-to-end encrypted
+                    </span>
+                  </div>
+                </div>
+                <textarea class="form-control"></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Upload Evidence (Optional)</label>
+                <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+                  <button class="button button-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem; vertical-align: text-bottom;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Add Photo
+                  </button>
+                  <button class="button button-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.25rem; vertical-align: text-bottom;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Add Location
+                  </button>
+                </div>
+              </div>
+              
+              <div class="map-container">
+                <div class="map-grid"></div>
+                
+                <!-- Map markers -->
+                <div class="map-marker" style="top: 35%; left: 30%;"></div>
+                <div class="map-marker" style="top: 60%; left: 70%;"></div>
+                <div class="map-marker" style="top: 25%; left: 50%;"></div>
+                
+                <div class="map-overlay">
+                  <div style="font-weight: 500; margin-bottom: 0.5rem;">Location Map</div>
+                  <div style="font-size: 0.875rem; color: var(--text-light);">Click on the map to add the location of your concern</div>
+                </div>
+              </div>
+              
+              <div class="flex justify-between mt-4">
+                <button class="button button-outline">Back</button>
+                <button class="button">Continue</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex gap-2 mt-4">
+          <button class="button" id="apply-all-changes">Apply All Changes</button>
+          <button class="button button-outline" id="reset-all-changes">Reset All</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    // Default values for resetting
+    const defaults = {
+      colors: {
+        primary: "#1a365d",
+        secondary: "#2c5282",
+        accent: "#90cdf4"
+      },
+      messages: {
+        dashboardWelcome: "Welcome to Parkview Academy's SafeShout portal. If you have any concerns about your wellbeing or that of another student, you can report it here safely. Our dedicated safeguarding team is here to help you.",
+        reportingIntro: "At Parkview Academy, we take all concerns seriously. You can share your concerns anonymously or with your name. Our safeguarding team follows clear procedures to help keep everyone safe.",
+        mobileWelcome: "Welcome to the Parkview Academy SafeShout app. Tap 'Report' to share a concern securely and confidentially.",
+        mobileInstructions: "You can report anonymously or provide your name. All reports are encrypted and handled confidentially by our safeguarding team.",
+        mobileEmergency: "For immediate assistance during school hours, please contact the safeguarding office at 01234 567890. Outside school hours, please contact emergency services if you are in danger."
+      }
+    };
+    
+    // Tab switching
+    function setupTabs() {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Get parent tabs container
+          const tabsContainer = this.closest('.tabs');
+          
+          // Get all tabs in this container
+          const tabs = tabsContainer.querySelectorAll('.tab');
+          
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Get target tab content ID
+          const tabId = this.getAttribute('data-tab');
+          
+          // Check if this is a parent tab or nested tab
+          const isParentTab = tabsContainer.parentElement.classList.contains('container');
+          
+          if (isParentTab) {
+            // Handle main tabs
+            document.querySelectorAll('.container > .tab-content').forEach(content => {
+              content.classList.remove('active');
+            });
+            
+            document.getElementById(tabId).classList.add('active');
+          } else {
+            // Handle nested tabs
+            const parentContent = tabsContainer.closest('.tab-content');
+            
+            parentContent.querySelectorAll('.tab-content').forEach(content => {
+              content.classList.remove('active');
+            });
+            
+            parentContent.querySelector(`#${tabId}`).classList.add('active');
+          }
+        });
+      });
+    }
+    
+    // Initialize all tabs
+    setupTabs();
+    
+    // Color customization
+    document.querySelectorAll('.color-sample').forEach(sample => {
+      sample.addEventListener('click', function() {
+        const color = this.getAttribute('data-color');
+        const type = this.getAttribute('data-type');
+        
+        if (type === 'primary') {
+          document.documentElement.style.setProperty('--school-primary', color);
+          document.querySelector('.color-primary').style.backgroundColor = color;
+          document.getElementById('primary-hex-display').textContent = color;
+        } else if (type === 'secondary') {
+          document.documentElement.style.setProperty('--school-secondary', color);
+          document.querySelector('.color-secondary').style.backgroundColor = color;
+          document.getElementById('secondary-hex-display').textContent = color;
+        } else if (type === 'accent') {
+          document.documentElement.style.setProperty('--school-accent', color);
+          document.querySelector('.color-accent').style.backgroundColor = color;
+          document.getElementById('accent-hex-display').textContent = color;
+        }
+        
+        // Update toggle sliders with new primary color
+        document.querySelectorAll('input:checked + .switch-slider').forEach(slider => {
+          slider.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--school-primary');
+        });
+        
+        // Update all preview elements with new colors
+        updatePreviewColors();
+      });
+    });
+    
+    // Custom color input handling
+    document.getElementById('apply-primary').addEventListener('click', function() {
+      const color = document.getElementById('custom-primary').value;
+      if (isValidHexColor(color)) {
+        document.documentElement.style.setProperty('--school-primary', color);
+        document.querySelector('.color-primary').style.backgroundColor = color;
+        document.getElementById('primary-hex-display').textContent = color;
+        updatePreviewColors();
+      }
+    });
+    
+    document.getElementById('apply-secondary').addEventListener('click', function() {
+      const color = document.getElementById('custom-secondary').value;
+      if (isValidHexColor(color)) {
+        document.documentElement.style.setProperty('--school-secondary', color);
+        document.querySelector('.color-secondary').style.backgroundColor = color;
+        document.getElementById('secondary-hex-display').textContent = color;
+        updatePreviewColors();
+      }
+    });
+    
+    document.getElementById('apply-accent').addEventListener('click', function() {
+      const color = document.getElementById('custom-accent').value;
+      if (isValidHexColor(color)) {
+        document.documentElement.style.setProperty('--school-accent', color);
+        document.querySelector('.color-accent').style.backgroundColor = color;
+        document.getElementById('accent-hex-display').textContent = color;
+        updatePreviewColors();
+      }
+    });
+    
+    // Save and reset color settings
+    document.getElementById('save-colors').addEventListener('click', function() {
+      alert('Color settings saved successfully!');
+    });
+    
+    document.getElementById('reset-colors').addEventListener('click', function() {
+      document.documentElement.style.setProperty('--school-primary', defaults.colors.primary);
+      document.documentElement.style.setProperty('--school-secondary', defaults.colors.secondary);
+      document.documentElement.style.setProperty('--school-accent', defaults.colors.accent);
+      
+      document.querySelector('.color-primary').style.backgroundColor = defaults.colors.primary;
+      document.querySelector('.color-secondary').style.backgroundColor = defaults.colors.secondary;
+      document.querySelector('.color-accent').style.backgroundColor = defaults.colors.accent;
+      
+      document.getElementById('primary-hex-display').textContent = defaults.colors.primary;
+      document.getElementById('secondary-hex-display').textContent = defaults.colors.secondary;
+      document.getElementById('accent-hex-display').textContent = defaults.colors.accent;
+      
+      document.getElementById('custom-primary').value = '';
+      document.getElementById('custom-secondary').value = '';
+      document.getElementById('custom-accent').value = '';
+      
+      updatePreviewColors();
+    });
+    
+    // Logo upload handling
+    document.getElementById('logo-upload').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('logo-preview').innerHTML = `
+            <img src="${e.target.result}" alt="School Logo" style="max-width: 100%; max-height: 80px;">
+          `;
+          
+          // Update all logo previews with the new logo
+          document.getElementById('header-school-logo').innerHTML = `
+            <img src="${e.target.result}" alt="School Logo" style="max-height: 40px;">
+          `;
+          
+          document.getElementById('dashboard-school-logo').innerHTML = `
+            <img src="${e.target.result}" alt="School Logo" style="max-height: 24px;">
+          `;
+          
+          document.getElementById('reporting-school-logo').innerHTML = `
+            <img src="${e.target.result}" alt="School Logo" style="max-height: 24px;">
+          `;
+          
+          // Update mobile logo but keep it hidden if the toggle is off
+          document.getElementById('mobile-school-logo').innerHTML = `
+            <div style="width: 1px; height: 16px; background-color: rgba(255,255,255,0.3); margin: 0 0.5rem;"></div>
+            <img src="${e.target.result}" alt="School Logo" style="max-height: 16px;">
+          `;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    document.getElementById('remove-logo-btn').addEventListener('click', function() {
+      document.getElementById('logo-preview').innerHTML = `
+        <svg width="160" height="50" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="6" fill="#1a365d"/>
+          <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="white"/>
+          <path d="M50 14H55C56 14 57 14.2 57.7 14.6C58.4 15 59 15.5 59.4 16.2C59.8 16.9 60 17.7 60 18.6C60 19.5 59.8 20.3 59.4 21C59 21.7 58.4 22.2 57.7 22.6C57 23 56 23.2 55 23.2H52V28H50V14ZM55 21.5C55.6 21.5 56.2 21.4 56.6 21.1C57.1 20.8 57.5 20.5 57.7 20.1C58 19.7 58.1 19.2 58.1 18.6C58.1 18 58 17.5 57.7 17.1C57.4 16.7 57.1 16.4 56.6 16.1C56.1 15.8 55.6 15.7 55 15.7H52V21.5H55Z" fill="#1a365d"/>
+        </svg>
+      `;
+      
+      // Reset all logo previews
+      document.getElementById('header-school-logo').innerHTML = `
+        <svg width="120" height="40" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="6" fill="#1a365d"/>
+          <path d="M20 8L32 16V32H24V24H16V32H8V16L20 8Z" fill="white"/>
+          <path d="M50 14H55C56 14 57 14.2 57.7 14.6C58.4 15 59 15.5 59.4 16.2C59.8 16.9 60 17.7 60 18.6C60 19.5 59.8 20.3 59.4 21C59 21.7 58.4 22.2 57.7 22.6C57 23 56 23.2 55 23.2H52V28H50V14ZM55 21.5C55.6 21.5 56.2 21.4 56.6 21.1C57.1 20.8 57.5 20.5 57.7 20.1C58 19.7 58.1 19.2 58.1 18.6C58.1 18 58 17.5 57.7 17.1C57.4 16.7 57.1 16.4 56.6 16.1C56.1 15.8 55.6 15.7 55 15.7H52V21.5H55Z" fill="#1a365d"/>
+        </svg>
+      `;
+      
+      document.getElementById('dashboard-school-logo').innerHTML = `
+        <svg width="80" height="24" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24" height="24" rx="4" fill="#1a365d"/>
+          <path d="M12 5L19 10V19H15V15H9V19H5V10L12 5Z" fill="white"/>
+        </svg>
+      `;
+      
+      document.getElementById('reporting-school-logo').innerHTML = `
+        <svg width="80" height="24" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="24" height="24" rx="4" fill="#1a365d"/>
+          <path d="M12 5L19 10V19H15V15H9V19H5V10L12 5Z" fill="white"/>
+        </svg>
+      `;
+      
+      document.getElementById('mobile-school-logo').innerHTML = `
+        <div style="width: 1px; height: 16px; background-color: rgba(255,255,255,0.3); margin: 0 0.5rem;"></div>
+        <svg width="16" height="16" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="16" height="16" rx="2" fill="#1a365d"/>
+          <path d="M8 3L13 6V13H10V10H6V13H3V6L8 3Z" fill="white"/>
+        </svg>
+      `;
+    });
+    
+    // Toggle mobile logo visibility
+    document.getElementById('show-mobile').addEventListener('change', function() {
+      document.getElementById('mobile-school-logo').style.display = this.checked ? 'flex' : 'none';
+    });
+    
+    // Message previews sync
+    document.getElementById('dashboard-welcome').addEventListener('input', function() {
+      document.getElementById('dashboard-welcome-preview').textContent = this.value;
+      document.getElementById('dashboard-preview-message').textContent = this.value;
+    });
+    
+    document.getElementById('reporting-intro').addEventListener('input', function() {
+      document.getElementById('reporting-intro-preview').textContent = this.value;
+    });
+    
+    document.getElementById('mobile-welcome').addEventListener('input', function() {
+      document.getElementById('mobile-welcome-preview').textContent = this.value;
+      document.getElementById('mobile-preview-message').textContent = this.value;
+    });
+    
+    document.getElementById('mobile-instructions').addEventListener('input', function() {
+      document.getElementById('mobile-instructions-preview').textContent = this.value;
+    });
+    
+    document.getElementById('mobile-emergency').addEventListener('input', function() {
+      document.getElementById('mobile-emergency-preview').textContent = this.value;
+    });
+    
+    // Reset dashboard messages
+    document.getElementById('reset-dashboard-messages').addEventListener('click', function() {
+      document.getElementById('dashboard-welcome').value = defaults.messages.dashboardWelcome;
+      document.getElementById('dashboard-welcome-preview').textContent = defaults.messages.dashboardWelcome;
+      document.getElementById('dashboard-preview-message').textContent = defaults.messages.dashboardWelcome;
+      
+      document.getElementById('reporting-intro').value = defaults.messages.reportingIntro;
+      document.getElementById('reporting-intro-preview').textContent = defaults.messages.reportingIntro;
+    });
+    
+    // Reset mobile messages
+    document.getElementById('reset-mobile-messages').addEventListener('click', function() {
+      document.getElementById('mobile-welcome').value = defaults.messages.mobileWelcome;
+      document.getElementById('mobile-welcome-preview').textContent = defaults.messages.mobileWelcome;
+      document.getElementById('mobile-preview-message').textContent = defaults.messages.mobileWelcome;
+      
+      document.getElementById('mobile-instructions').value = defaults.messages.mobileInstructions;
+      document.getElementById('mobile-instructions-preview').textContent = defaults.messages.mobileInstructions;
+      
+      document.getElementById('mobile-emergency').value = defaults.messages.mobileEmergency;
+      document.getElementById('mobile-emergency-preview').textContent = defaults.messages.mobileEmergency;
+    });
+    
+    // Policy remove buttons
+    document.querySelectorAll('button[data-policy]').forEach(button => {
+      button.addEventListener('click', function() {
+        const policyId = this.getAttribute('data-policy');
+        this.closest('li').remove();
+      });
+    });
+    
+    // Policy upload handling
+    document.getElementById('policy-upload').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const today = new Date();
+        const date = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        const size = Math.round(file.size / 1024);
+        
+        const newPolicy = document.createElement('li');
+        newPolicy.className = 'dashboard-card flex justify-between items-center';
+        newPolicy.innerHTML = `
+          <div>
+            <div style="font-weight: 500;">${file.name}</div>
+            <div class="text-sm text-light">${size} KB · Uploaded on ${date}</div>
+          </div>
+          <button class="button button-outline">Remove</button>
+        `;
+        
+        const list = document.querySelector('ul');
+        list.insertBefore(newPolicy, list.firstChild);
+        
+        // Add click handler to new remove button
+        newPolicy.querySelector('button').addEventListener('click', function() {
+          newPolicy.remove();
+        });
+        
+        // Clear file input
+        this.value = '';
+      }
+    });
+    
+    // Global apply and reset
+    document.getElementById('apply-all-changes').addEventListener('click', function() {
+      alert('All changes have been applied to your SafeShout instance!');
+    });
+    
+    document.getElementById('reset-all-changes').addEventListener('click', function() {
+      if (confirm('Are you sure you want to reset all customizations to default?')) {
+        // Reset colors
+        document.getElementById('reset-colors').click();
+        
+        // Reset logo
+        document.getElementById('remove-logo-btn').click();
+        
+        // Reset messages
+        document.getElementById('reset-dashboard-messages').click();
+        document.getElementById('reset-mobile-messages').click();
+        
+        // Reset toggles
+        document.getElementById('show-header').checked = true;
+        document.getElementById('show-dashboard').checked = true;
+        document.getElementById('show-mobile').checked = false;
+        document.getElementById('show-reports').checked = true;
+        document.getElementById('mobile-school-logo').style.display = 'none';
+        
+        document.getElementById('require-acknowledge').checked = true;
+        document.getElementById('show-in-reporting').checked = true;
+        document.getElementById('include-in-dashboard').checked = true;
+        
+        alert('All settings have been reset to defaults.');
+      }
+    });
+    
+    // Helper functions
+    function updatePreviewColors() {
+      // Update device headers
+      document.querySelectorAll('.device-header').forEach(header => {
+        header.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--school-primary');
+      });
+      
+      // Update buttons
+      document.querySelectorAll('.button-school').forEach(button => {
+        button.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--school-primary');
+      });
+      
+      // Update stats
+      document.querySelectorAll('.stat-value').forEach(stat => {
+        stat.style.color = getComputedStyle(document.documentElement).getPropertyValue('--school-primary');
+      });
+      
+      // Update alert boxes
+      document.querySelectorAll('.alert-box, .mobile-welcome').forEach(alert => {
+        alert.style.borderLeftColor = getComputedStyle(document.documentElement).getPropertyValue('--school-primary');
+      });
+    }
+    
+    function isValidHexColor(hex) {
+      return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
+    }
+    
+    // Initialize toggle handling
+    document.querySelectorAll('.switch input').forEach(toggle => {
+      toggle.addEventListener('change', function() {
+        if (this.checked) {
+          this.nextElementSibling.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--school-primary');
+        } else {
+          this.nextElementSibling.style.backgroundColor = '#ccc';
+        }
+      });
+    });
+    
+    // Initialize preview button
+    document.getElementById('preview-btn').addEventListener('click', function() {
+      document.querySelector('.tab[data-tab="preview"]').click();
+    });
+    
+    // Initialize save button
+    document.getElementById('save-btn').addEventListener('click', function() {
+      alert('All changes have been saved successfully!');
+    });
+  </script>
+</body>
+</html>
